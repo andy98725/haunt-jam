@@ -29,8 +29,9 @@ public abstract class Element {
     }
 
     public void render(SpriteBatch sb) {
-        if (facingLeft) // TODO
-            sb.draw(sprite(), pos.x * Terrain.TILE_SIZE, pos.y * Terrain.TILE_SIZE, pos.width * Terrain.TILE_SIZE,
+        if (facingLeft)
+            sb.draw(sprite(), (pos.x + pos.width) * Terrain.TILE_SIZE, pos.y * Terrain.TILE_SIZE,
+                    -pos.width * Terrain.TILE_SIZE,
                     pos.height * Terrain.TILE_SIZE);
         else
             sb.draw(sprite(), pos.x * Terrain.TILE_SIZE, pos.y * Terrain.TILE_SIZE, pos.width * Terrain.TILE_SIZE,

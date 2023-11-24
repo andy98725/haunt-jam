@@ -38,9 +38,10 @@ public class Character extends Element {
         xvel *= X_VELOCITY * Gdx.graphics.getDeltaTime();
         yvel *= Y_VELOCITY * Gdx.graphics.getDeltaTime();
 
-        this.setLoc(
-                new Vector2(loc.x + xvel, loc.y + yvel));
-        // TODO
+        Vector2 newLoc = new Vector2(loc.x + xvel, loc.y + yvel);
+        // TODO physics, collision here
+
+        this.setLoc(newLoc);
     }
 
     @Override
