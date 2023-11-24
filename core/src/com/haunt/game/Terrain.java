@@ -12,24 +12,21 @@ public class Terrain {
     public static final float TILE_SIZE = 2;
     private final int[][] levelMap;
 
-    public Terrain(int[][] map) {
+    public Terrain(int[][] map, boolean upsideDown) {
         this.levelMap = map;
+        if (upsideDown) {
+            for (int i = 0; i < levelMap.length / 2; i++) {
+                int[] t = levelMap[i];
+                levelMap[i] = levelMap[levelMap.length - 1 - i];
+                levelMap[levelMap.length - 1 - i] = t;
+            }
+        }
     }
 
     public void render(SpriteBatch sb, Camera cam) {
-        // float lX = cam.position.x - cam.viewportWidth / 2, rX = cam.position.x +
-        // cam.viewportWidth / 2;
-        // float tY = cam.position.y - cam.viewportHeight / 2, bY = cam.position.y +
-        // cam.viewportHeight / 2;
-        // for (float x = lX - TILE_SIZE; x < rX + TILE_SIZE; x += TILE_SIZE)
-        // for (float y = tY - TILE_SIZE; y < bY + TILE_SIZE; y += TILE_SIZE)
-        // if (tileAt(x, y) != null)
-        // sb.draw(sprite(x, y), x, y, TILE_SIZE, TILE_SIZE);
 
-        // spriteBatch draws upside down
-        float botY = (levelMap.length - 1) * TILE_SIZE;
-        for (int i = 0; i < levelMap.length; i++)
-            for (int j = 0; j < levelMap[0].length; j++)
+        for (int i = 0; i < levelMap[0].length; i++)
+            for (int j = 0; j < levelMap.length; j++)
                 if (tileAt(i * TILE_SIZE, j * TILE_SIZE) != null)
                     sb.draw(sprite(i * TILE_SIZE, j * TILE_SIZE), i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE,
                             TILE_SIZE);

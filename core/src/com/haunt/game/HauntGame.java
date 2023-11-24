@@ -14,8 +14,9 @@ public class HauntGame extends ApplicationAdapter {
 			{ 1, 0, 1, 0, 1 },
 			{ 1, 0, 0, 0, 1 },
 			{ 1, 0, 0, 0, 1 },
+			{ 1, 0, 0, 0, 1 },
 			{ 1, 1, 1, 1, 1 },
-	});
+	}, true);
 
 	@Override
 	public void create() {
@@ -26,6 +27,7 @@ public class HauntGame extends ApplicationAdapter {
 	@Override
 	public void render() {
 		ScreenUtils.clear(0, 0, 0, 1);
+
 		batch.begin();
 		level.render(batch);
 		batch.end();

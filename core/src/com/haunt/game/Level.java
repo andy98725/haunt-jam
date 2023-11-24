@@ -17,11 +17,11 @@ public class Level {
     private Camera cam;
 
     private int jamI;
-    private Vector2[] startLocs = new Vector2[] { new Vector2(2.5f, 2) };
-    private Vector2[] endLocs = new Vector2[] { new Vector2(2.5f, 0.5f) };
+    private Vector2[] startLocs = new Vector2[] { new Vector2(2.5f, 5) };
+    private Vector2[] endLocs = new Vector2[] { new Vector2(2.5f, 1.5f) };
 
-    public Level(int[][] map) {
-        this.terrain = new Terrain(map);
+    public Level(int[][] map, boolean upsideDown) {
+        this.terrain = new Terrain(map, upsideDown);
 
         jamI = 0;
         character.init(startLocs[jamI % startLocs.length]);
