@@ -44,7 +44,7 @@ public class Level {
     public void update() {
         character.update(this);
 
-        this.cam.position.set(character.loc.x * Terrain.TILE_SIZE, character.loc.y * Terrain.TILE_SIZE, 0);
+        this.cam.position.set(character.loc.x * Terrain.ZOOM, character.loc.y * Terrain.ZOOM, 0);
         this.cam.update();
     }
 
@@ -58,7 +58,7 @@ public class Level {
     }
 
     public void create() {
-        this.cam = new OrthographicCamera(16, 12);
+        this.cam = new OrthographicCamera(8 * Terrain.ZOOM, 6 * Terrain.ZOOM);
         this.cam.position.set(character.loc.x, character.loc.y, 0);
         this.cam.update();
 

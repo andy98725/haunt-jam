@@ -50,7 +50,7 @@ public class Character extends Element {
             if (botHit == Terrain.Tile.KILL || botHit == Terrain.Tile.KILL)
                 level.restart();
             else if (botHit == Terrain.Tile.SOLID || botHit == Terrain.Tile.SOLID) {
-                float newMaxX = maxX - (maxX % Terrain.TILE_SIZE);
+                float newMaxX = maxX - (maxX % Terrain.ZOOM);
                 xvel += newMaxX - maxX;
             }
 

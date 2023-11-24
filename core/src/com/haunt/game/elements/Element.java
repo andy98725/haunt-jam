@@ -22,20 +22,20 @@ public abstract class Element {
     public void updateLoc(Vector2 loc) {
         this.loc = loc;
         this.pos = new Rectangle(shape());
-        pos.setX(pos.getX() + loc.x);
-        pos.setY(pos.getY() + loc.y);
+        pos.x += loc.x;
+        pos.y += loc.y;
         this.drawPos = new Rectangle(drawShape());
-        drawPos.setX(drawPos.getX() + loc.x);
-        drawPos.setY(drawPos.getY() + loc.y);
+        drawPos.x += loc.x;
+        drawPos.y += loc.y;
     }
 
     public void render(SpriteBatch sb) {
         if (facingLeft)
-            sb.draw(sprite(), (drawPos.x + drawPos.width) * Terrain.TILE_SIZE, drawPos.y * Terrain.TILE_SIZE,
-                    -drawPos.width * Terrain.TILE_SIZE, drawPos.height * Terrain.TILE_SIZE);
+            sb.draw(sprite(), (drawPos.x + drawPos.width) * Terrain.ZOOM, drawPos.y * Terrain.ZOOM,
+                    -drawPos.width * Terrain.ZOOM, drawPos.height * Terrain.ZOOM);
         else
-            sb.draw(sprite(), drawPos.x * Terrain.TILE_SIZE, drawPos.y * Terrain.TILE_SIZE,
-                    drawPos.width * Terrain.TILE_SIZE, drawPos.height * Terrain.TILE_SIZE);
+            sb.draw(sprite(), drawPos.x * Terrain.ZOOM, drawPos.y * Terrain.ZOOM,
+                    drawPos.width * Terrain.ZOOM, drawPos.height * Terrain.ZOOM);
     }
 
     private TextureRegion spr;

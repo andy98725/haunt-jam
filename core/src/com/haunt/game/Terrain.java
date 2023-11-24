@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Terrain {
 
-    public static final float TILE_SIZE = 1.25f;
+    public static final float ZOOM = 1.25f;
     private final int[][] levelMap;
 
     public Terrain(int[][] map) {
@@ -20,8 +20,8 @@ public class Terrain {
         for (int i = 0; i < levelMap[0].length; i++)
             for (int j = 0; j < levelMap.length; j++)
                 if (tileAt(i, j) != null)
-                    sb.draw(sprite(i, j), i * TILE_SIZE, j * TILE_SIZE, TILE_SIZE,
-                            TILE_SIZE);
+                    sb.draw(sprite(i, j), i * ZOOM, j * ZOOM, ZOOM,
+                            ZOOM);
     }
 
     public Tile tileAt(float x, float y) {
