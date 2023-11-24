@@ -16,12 +16,15 @@ public class Level {
     public final Terrain terrain;
     private Camera cam;
 
+    private Vector2 startLoc;
     private int goalIndex;
-    private Vector2[] startLocs = new Vector2[] { new Vector2(5.5f, 5) };
-    private Vector2[] endLocs = new Vector2[] { new Vector2(14.5f, 6.5f) };
+    private Vector2[] endLocs;
 
-    public Level(int[][] map) {
+    public Level(int[][] map, Vector2 startLoc, Vector2[] jarLocs) {
         this.terrain = new Terrain(map);
+
+        this.startLoc = startLoc;
+        this.endLocs = jarLocs;
 
         goalIndex = 0;
         restart();
@@ -29,14 +32,13 @@ public class Level {
     }
 
     public void restart() {
-        character.init(startLocs[goalIndex % startLocs.length]);
-        goal.updateLoc(endLocs[goalIndex % startLocs.length]);
+        character.init(startLoc);
+        goal.updateLoc(endLocs[goalIndex % endLocs.length]);
     }
 
     public void reachGoal() {
         goalIndex++;
-        character.init(startLocs[goalIndex % startLocs.length]);
-        goal.updateLoc(endLocs[goalIndex % startLocs.length]);
+        goal.updateLoc(endLocs[goalIndex % endLocs.length]);
     }
 
     public void update() {
@@ -56,7 +58,7 @@ public class Level {
     }
 
     public void create() {
-        this.cam = new OrthographicCamera(8, 6);
+        this.cam = new OrthographicCamera(16, 12);
         this.cam.position.set(character.loc.x, character.loc.y, 0);
         this.cam.update();
 

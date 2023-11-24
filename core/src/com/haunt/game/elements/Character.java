@@ -13,7 +13,8 @@ public class Character extends Element {
         IDLE, WALK, JUMP, DASH, WALLSLIDE
     }
 
-    public static final Rectangle shape = new Rectangle(-0.5f, 0, 1, 1);
+    public static final Rectangle shape = new Rectangle(-0.5f, 0, 1, 2);
+    public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
     private State state;
     private Vector2 vel;
@@ -41,25 +42,19 @@ public class Character extends Element {
 
         // TODO manipulate velocities in state (add accel)
 
-        Terrain.Tile hitTile = level.terrain.tileAt(pos.getX(), pos.getY());
-        if (hitTile != null)
-            Gdx.app.log("tile", hitTile.toString());
         // // Apply collision
-        // if (xvel > 0) {
-        // float maxX = pos.x + pos.width + xvel;
-        // switch (hitTile) {
-        // case EMPTY:
-        // break;
-        // case SOLID:
-        // float newMaxX = maxX - (maxX % Terrain.TILE_SIZE);
-        // xvel += newMaxX - maxX;
-        // break;
-        // case KILL:
-        // level.restart();
-        // break;
-        // }
+        if (xvel > 0) {
+            float maxX = pos.x + pos.width + xvel;
+            Terrain.Tile botHit = level.terrain.tileAt(maxX, pos.getY());
+            Terrain.Tile topHit = level.terrain.tileAt(maxX, pos.getY() + pos.getHeight());
+            if (botHit == Terrain.Tile.KILL || botHit == Terrain.Tile.KILL)
+                level.restart();
+            else if (botHit == Terrain.Tile.SOLID || botHit == Terrain.Tile.SOLID) {
+                float newMaxX = maxX - (maxX % Terrain.TILE_SIZE);
+                xvel += newMaxX - maxX;
+            }
 
-        // }
+        }
 
         Vector2 newLoc = new Vector2(loc.x + xvel, loc.y + yvel);
 
@@ -71,6 +66,11 @@ public class Character extends Element {
     @Override
     protected Rectangle shape() {
         return shape;
+    }
+
+    @Override
+    protected Rectangle drawShape() {
+        return drawShape;
     }
 
     @Override

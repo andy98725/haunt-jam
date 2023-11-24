@@ -12,26 +12,30 @@ public abstract class Element {
 
     protected abstract Rectangle shape();
 
+    protected abstract Rectangle drawShape();
+
     protected abstract String spriteLoc();
 
     public Vector2 loc;
-    public Rectangle pos;
+    public Rectangle pos, drawPos;
 
     public void updateLoc(Vector2 loc) {
         this.loc = loc;
         this.pos = new Rectangle(shape());
         pos.setX(pos.getX() + loc.x);
         pos.setY(pos.getY() + loc.y);
+        this.drawPos = new Rectangle(drawShape());
+        drawPos.setX(drawPos.getX() + loc.x);
+        drawPos.setY(drawPos.getY() + loc.y);
     }
 
     public void render(SpriteBatch sb) {
         if (facingLeft)
-            sb.draw(sprite(), (pos.x + pos.width) * Terrain.TILE_SIZE, pos.y * Terrain.TILE_SIZE,
-                    -pos.width * Terrain.TILE_SIZE,
-                    pos.height * Terrain.TILE_SIZE);
+            sb.draw(sprite(), (drawPos.x + drawPos.width) * Terrain.TILE_SIZE, drawPos.y * Terrain.TILE_SIZE,
+                    -drawPos.width * Terrain.TILE_SIZE, drawPos.height * Terrain.TILE_SIZE);
         else
-            sb.draw(sprite(), pos.x * Terrain.TILE_SIZE, pos.y * Terrain.TILE_SIZE, pos.width * Terrain.TILE_SIZE,
-                    pos.height * Terrain.TILE_SIZE);
+            sb.draw(sprite(), drawPos.x * Terrain.TILE_SIZE, drawPos.y * Terrain.TILE_SIZE,
+                    drawPos.width * Terrain.TILE_SIZE, drawPos.height * Terrain.TILE_SIZE);
     }
 
     private TextureRegion spr;
