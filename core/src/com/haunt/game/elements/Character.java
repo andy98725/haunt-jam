@@ -1,6 +1,7 @@
 package com.haunt.game.elements;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
@@ -22,14 +23,24 @@ public class Character extends Element {
         setLoc(startLoc);
     }
 
+    private static final float X_VELOCITY = 3, Y_VELOCITY = 5;
+
     public void update(Level level) {
 
-        // Update position
-        Vector2 newpos = new Vector2(loc.x + vel.x * Gdx.graphics.getDeltaTime(),
-                loc.y + vel.y * Gdx.graphics.getDeltaTime());
+        float xvel = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
+        float yvel = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0);
 
+        if (xvel < 0)
+            facingLeft = true;
+        else if (xvel > 0)
+            facingLeft = false;
+
+        xvel *= X_VELOCITY * Gdx.graphics.getDeltaTime();
+        yvel *= Y_VELOCITY * Gdx.graphics.getDeltaTime();
+
+        this.setLoc(
+                new Vector2(loc.x + xvel, loc.y + yvel));
         // TODO
-
     }
 
     @Override
