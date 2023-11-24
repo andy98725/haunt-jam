@@ -17,8 +17,8 @@ public class Level {
     private Camera cam;
 
     private int jamI;
-    private Vector2[] startLocs = new Vector2[] { new Vector2(2.5f, 5) };
-    private Vector2[] endLocs = new Vector2[] { new Vector2(2.5f, 1.5f) };
+    private Vector2[] startLocs = new Vector2[] { new Vector2(5.5f, 5) };
+    private Vector2[] endLocs = new Vector2[] { new Vector2(14.5f, 6.5f) };
 
     public Level(int[][] map, boolean upsideDown) {
         this.terrain = new Terrain(map, upsideDown);
@@ -38,7 +38,7 @@ public class Level {
     public void update() {
         character.update(this);
 
-        this.cam.position.set(character.loc.x, character.loc.y, 0);
+        this.cam.position.set(character.loc.x * Terrain.TILE_SIZE, character.loc.y * Terrain.TILE_SIZE, 0);
         this.cam.update();
     }
 

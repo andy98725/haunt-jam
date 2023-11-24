@@ -8,14 +8,14 @@ public class HauntGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 
 	private Level level = new Level(new int[][] {
-			{ 1, 0, 0, 0, 1 },
-			{ 1, 0, 0, 0, 1 },
-			{ 1, 0, 0, 0, 1 },
-			{ 1, 0, 1, 0, 1 },
-			{ 1, 0, 0, 0, 1 },
-			{ 1, 0, 0, 0, 1 },
-			{ 1, 0, 0, 0, 1 },
-			{ 1, 1, 1, 1, 1 },
+			{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
+			{ 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	}, true);
 
 	@Override
@@ -26,6 +26,7 @@ public class HauntGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		level.update();
 		ScreenUtils.clear(0, 0, 0, 1);
 
 		batch.begin();
