@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Terrain {
 
-    public static final float ZOOM = 1.25f;
+    public static final float ZOOM = 1.5f;
     private final int[][] levelMap;
 
     public Terrain(int[][] map) {
@@ -20,8 +20,7 @@ public class Terrain {
         for (int i = 0; i < levelMap[0].length; i++)
             for (int j = 0; j < levelMap.length; j++)
                 if (tileAt(i, j) != null)
-                    sb.draw(sprite(i, j), i * ZOOM, j * ZOOM, ZOOM,
-                            ZOOM);
+                    sb.draw(sprite(i, j), i, j, 1, 1);
     }
 
     public Tile tileAt(float x, float y) {
@@ -44,10 +43,6 @@ public class Terrain {
                 return Tile.KILL;
         }
 
-    }
-
-    public static enum Tile {
-        EMPTY, SOLID, KILL
     }
 
     private final HashMap<Tile, TextureRegion> spr = new HashMap<Tile, TextureRegion>();

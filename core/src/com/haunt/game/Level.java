@@ -10,7 +10,7 @@ import com.haunt.game.elements.Goal;
 
 public class Level {
 
-    public final Character character = new Character();
+    public final Character character = new Character(this);
     public final Goal goal = new Goal();
     public final Ghosts ghosts = new Ghosts();
     public final Terrain terrain;
@@ -42,14 +42,16 @@ public class Level {
     }
 
     public void update() {
-        character.update(this);
+        character.update();
 
-        this.cam.position.set(character.loc.x * Terrain.ZOOM, character.loc.y * Terrain.ZOOM, 0);
+        this.cam.position.set(character.loc.x, character.loc.y, 0);
         this.cam.update();
     }
 
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
+        if (HauntGame.DEBUG)
+            HauntGame.debugRenderer.setProjectionMatrix(cam.combined);
 
         terrain.render(sb, cam);
         ghosts.render(sb);
@@ -58,10 +60,7 @@ public class Level {
     }
 
     public void create() {
-        this.cam = new OrthographicCamera(8 * Terrain.ZOOM, 6 * Terrain.ZOOM);
-        this.cam.position.set(character.loc.x, character.loc.y, 0);
-        this.cam.update();
-
+        this.cam = new OrthographicCamera();
         terrain.create();
         character.create();
         ghosts.create();
@@ -77,8 +76,8 @@ public class Level {
 
     public void resize(int width, int height) {
         if (cam != null) {
-            cam.viewportWidth = 30f;
-            cam.viewportHeight = 30f * height / width;
+            cam.viewportWidth = 32f / Terrain.ZOOM;
+            cam.viewportHeight = 32f * height / width / Terrain.ZOOM;
             cam.update();
         }
     }

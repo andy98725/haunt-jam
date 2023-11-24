@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.haunt.game.Terrain;
+import com.haunt.game.HauntGame;
 
 public abstract class Element {
     protected boolean facingLeft;
@@ -31,11 +31,14 @@ public abstract class Element {
 
     public void render(SpriteBatch sb) {
         if (facingLeft)
-            sb.draw(sprite(), (drawPos.x + drawPos.width) * Terrain.ZOOM, drawPos.y * Terrain.ZOOM,
-                    -drawPos.width * Terrain.ZOOM, drawPos.height * Terrain.ZOOM);
+            sb.draw(sprite(), (drawPos.x + drawPos.width), drawPos.y,
+                    -drawPos.width, drawPos.height);
         else
-            sb.draw(sprite(), drawPos.x * Terrain.ZOOM, drawPos.y * Terrain.ZOOM,
-                    drawPos.width * Terrain.ZOOM, drawPos.height * Terrain.ZOOM);
+            sb.draw(sprite(), drawPos.x, drawPos.y,
+                    drawPos.width, drawPos.height);
+
+        if (HauntGame.DEBUG)
+            HauntGame.debugRenderer.rect(pos.x, pos.y, pos.width, pos.height);
     }
 
     private TextureRegion spr;
