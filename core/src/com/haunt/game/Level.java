@@ -10,29 +10,33 @@ import com.haunt.game.elements.Goal;
 
 public class Level {
 
-    private final Character character = new Character();
-    private final Goal goal = new Goal();
-    private final Ghosts ghosts = new Ghosts();
-    private final Terrain terrain;
+    public final Character character = new Character();
+    public final Goal goal = new Goal();
+    public final Ghosts ghosts = new Ghosts();
+    public final Terrain terrain;
     private Camera cam;
 
-    private int jamI;
+    private int goalIndex;
     private Vector2[] startLocs = new Vector2[] { new Vector2(5.5f, 5) };
     private Vector2[] endLocs = new Vector2[] { new Vector2(14.5f, 6.5f) };
 
-    public Level(int[][] map, boolean upsideDown) {
-        this.terrain = new Terrain(map, upsideDown);
+    public Level(int[][] map) {
+        this.terrain = new Terrain(map);
 
-        jamI = 0;
-        character.init(startLocs[jamI % startLocs.length]);
-        goal.setLoc(endLocs[jamI % startLocs.length]);
+        goalIndex = 0;
+        restart();
 
     }
 
+    public void restart() {
+        character.init(startLocs[goalIndex % startLocs.length]);
+        goal.updateLoc(endLocs[goalIndex % startLocs.length]);
+    }
+
     public void reachGoal() {
-        jamI++;
-        character.init(startLocs[jamI % startLocs.length]);
-        goal.setLoc(endLocs[jamI % startLocs.length]);
+        goalIndex++;
+        character.init(startLocs[goalIndex % startLocs.length]);
+        goal.updateLoc(endLocs[goalIndex % startLocs.length]);
     }
 
     public void update() {

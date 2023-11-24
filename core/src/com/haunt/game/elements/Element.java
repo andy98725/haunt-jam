@@ -15,17 +15,13 @@ public abstract class Element {
     protected abstract String spriteLoc();
 
     public Vector2 loc;
-    private Rectangle pos;
+    public Rectangle pos;
 
-    public void setLoc(Vector2 loc) {
+    public void updateLoc(Vector2 loc) {
         this.loc = loc;
         this.pos = new Rectangle(shape());
-        pos.x += loc.x;
-        pos.y += loc.y;
-    }
-
-    public Rectangle position() {
-        return pos;
+        pos.setX(pos.getX() + loc.x);
+        pos.setY(pos.getY() + loc.y);
     }
 
     public void render(SpriteBatch sb) {

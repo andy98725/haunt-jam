@@ -12,15 +12,8 @@ public class Terrain {
     public static final float TILE_SIZE = 2;
     private final int[][] levelMap;
 
-    public Terrain(int[][] map, boolean upsideDown) {
+    public Terrain(int[][] map) {
         this.levelMap = map;
-        if (upsideDown) {
-            for (int i = 0; i < levelMap.length / 2; i++) {
-                int[] t = levelMap[i];
-                levelMap[i] = levelMap[levelMap.length - 1 - i];
-                levelMap[levelMap.length - 1 - i] = t;
-            }
-        }
     }
 
     public void render(SpriteBatch sb, Camera cam) {
@@ -44,7 +37,7 @@ public class Terrain {
             // return Tile.SOLID;
             return null;
 
-        switch (levelMap[yy][xx]) {
+        switch (levelMap[levelMap.length - 1 - yy][xx]) {
             default:
             case 0:
                 return Tile.EMPTY;
