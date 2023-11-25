@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "editor/sampleLevel.tmx",
     "expandedProjectPaths": [
-        "editor",
-        "."
+        ".",
+        "editor"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -14,8 +14,8 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 471.3333333333333,
-                "y": 274.66666666666663
+                "x": 400.66666666666663,
+                "y": 272
             }
         },
         "editor/tiles.tsx": {
@@ -42,12 +42,14 @@
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "editor/tiles.tsx",
+        "editor/sampleLevel.tmx"
     ],
     "project": "sample.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "editor/sampleLevel.tmx",
         "editor/tiles.tsx",
+        "editor/sampleLevel.tmx",
         "sampleLevel.tmx",
         "tiles.tsx"
     ],

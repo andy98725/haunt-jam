@@ -41,7 +41,7 @@ public abstract class Element {
             HauntGame.debugRenderer.rect(pos.x, pos.y, pos.width, pos.height);
     }
 
-    private TextureRegion spr;
+    protected TextureRegion spr;
 
     protected TextureRegion sprite() {
         return spr;

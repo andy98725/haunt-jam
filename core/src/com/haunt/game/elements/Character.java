@@ -155,7 +155,7 @@ public class Character extends Element {
         return "assets/player/idle.png";
     }
 
-    private static Color invincibleCol = new Color(1, 1, 1, 0.75f);
+    private static Color invincibleCol = new Color(0.8f, 0.8f, 1, 1);
 
     @Override
     public void render(SpriteBatch sb) {
@@ -166,8 +166,8 @@ public class Character extends Element {
             sb.setColor(Color.WHITE);
     }
 
-    public Ghosts.Ghost makeGhost() {
-        Ghosts.Ghost g = new Ghosts.Ghost(positions, times, facing);
+    public Ghosts.Ghost makeGhost(Vector2 goalPos) {
+        Ghosts.Ghost g = new Ghosts.Ghost(positions, times, facing, new Jar.FakeJar(goalPos));
 
         positions = new ArrayList<Vector2>();
         times = new ArrayList<Float>();

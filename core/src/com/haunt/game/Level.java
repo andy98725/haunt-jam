@@ -2,7 +2,6 @@ package com.haunt.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -15,7 +14,6 @@ import com.haunt.game.elements.Jar;
 import com.ui.Timer;
 
 public class Level {
-    private static final Random r = new Random();
 
     public final Character character = new Character(this);
     public final Jar goal = new Jar();
@@ -107,23 +105,23 @@ public class Level {
     }
 
     public void reachGoal() {
+        ghosts.addGhost(character.makeGhost(goal.loc));
+        ghosts.resetTimer();
+        timer.incrementTimer();
+
         goalIndex++;
         if (goalIndex >= endLocs.length) {
             Gdx.app.log("YOU WIN", "!!!");
 
+            // Random map location
             do {
-                goal.updateLoc(new Vector2(r.nextInt(terrain.mapWid()), r.nextInt(terrain.mapHei())));
+                goal.updateLoc(
+                        new Vector2(Util.random.nextInt(terrain.mapWid()), Util.random.nextInt(terrain.mapHei())));
             } while (terrain.tileAt(goal.loc.x, goal.loc.y) != Tile.EMPTY);
 
         } else
             goal.updateLoc(endLocs[goalIndex % endLocs.length]);
         character.reachGoal();
-
-        // Create ghost from tracked positions
-        ghosts.addGhost(character.makeGhost());
-        ghosts.resetTimer();
-        timer.incrementTimer();
-
     }
 
     public void update() {
