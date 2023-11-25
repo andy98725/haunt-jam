@@ -82,29 +82,26 @@ public class Character extends Element {
         switch (st) {
             case IDLE:
                 velocityCap = new Vector2(0, 0);
-                // jump done in walk state
                 if (xMov != 0 || yMov != 0)
                     updateState(State.WALK, xMov, yMov);
+
                 break;
             case WALK:
                 velocityCap = new Vector2(4, 0);
 
                 // Jump
                 if (yMov > 0) {
-                    vel.y = 10;
+                    vel.y = 10;// duplicated in coyote jump
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
+
                 // Check fallthrough
                 if (tileHitY(pos.y - err) == Tile.EMPTY) {
-                    if (coyoteTime > 0)
-                        coyoteTime -= Gdx.graphics.getDeltaTime();
-                    else {
-                        updateState(State.JUMP, xMov, yMov);
-                        break;
-                    }
-                } else
-                    coyoteTime = 0f; // TODO test
+                    coyoteTime = 0.12f;
+                    updateState(State.JUMP, xMov, yMov);
+                    break;
+                }
 
                 // Instant stop on other press
                 if (xMov * vel.x < 0) {
@@ -126,12 +123,16 @@ public class Character extends Element {
                 velocityCap = new Vector2(4, -1);
                 accel = new Vector2(16 * xMov, -16);
 
+                if (coyoteTime > 0)
+                    coyoteTime -= Gdx.graphics.getDeltaTime();
+                if (coyoteTime > 0 && yMov > 0) {
+                    vel.y = 9;
+                    break;
+                }
+
                 if (vel.y < 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
                     updateState(State.WALK, xMov, yMov);
                     break;
-                }
-                if (vel.y > 0 && tileHitY(pos.y + pos.height + err) != Tile.EMPTY) {
-                    vel.y = 0;
                 }
 
                 break;
@@ -157,6 +158,7 @@ public class Character extends Element {
             if (hit == Tile.SOLID) {
                 float newMaxX = checkX - (checkX % 1);
                 xvel = Math.max(0, xvel + newMaxX - checkX);
+                this.vel.x = xvel;
             }
         } else if (xvel < 0) { // left
             float checkX = pos.x + xvel;
@@ -165,6 +167,7 @@ public class Character extends Element {
             if (hit == Tile.SOLID) {
                 float newMinX = checkX + 1 - (checkX % 1);
                 xvel = Math.min(0, xvel + newMinX - checkX);
+                this.vel.x = xvel;
             }
         }
         this.updateLoc(new Vector2(loc.x + xvel, loc.y));
@@ -177,6 +180,7 @@ public class Character extends Element {
             if (hit == Tile.SOLID) {
                 float newMaxY = checkY - (checkY % 1);
                 yvel = Math.max(0, yvel + newMaxY - checkY);
+                this.vel.y = yvel;
             }
         } else if (yvel < 0) { // down
             float checkY = pos.y + yvel;
@@ -185,6 +189,7 @@ public class Character extends Element {
             if (hit == Tile.SOLID) {
                 float newMinY = checkY + 1 - (checkY % 1);
                 yvel = Math.min(0, yvel + newMinY - checkY);
+                // this.vel.y = yvel; Not done for collision checking reasons
             }
         }
         this.updateLoc(new Vector2(loc.x, loc.y + yvel));

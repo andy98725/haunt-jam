@@ -143,7 +143,7 @@ public class Ghosts {
             this.facingLeft = curFacing.get(0);
         }
 
-        public static final Rectangle shape = new Rectangle(-0.5f, 0, 1, 2);
+        public static final Rectangle shape = new Rectangle(-0.4f, 0, 0.8f, 1.6f);
         public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
         @Override
