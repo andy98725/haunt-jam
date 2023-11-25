@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -36,22 +37,25 @@ public class Timer {
 
     public void render(SpriteBatch sb) {
         float sprX = Gdx.graphics.getWidth() / 2 - timerSpr.getRegionWidth() / 2;
-        float sprY = Gdx.graphics.getHeight() - timerSpr.getRegionHeight() - 24;
-
+        float sprY = Gdx.graphics.getHeight() - 36 - timerSpr.getRegionHeight() / 2;
         sb.draw(timerSpr, sprX, sprY);
 
+        txt.setText(font, getText());
+        float txtX = Gdx.graphics.getWidth() / 2 - txt.width / 2;
+        float txtY = Gdx.graphics.getHeight() - 36 - txt.height / 2 + 8;
         font.setColor(getColor());
-        font.draw(sb, getText(), sprX,
-                Gdx.graphics.getHeight() - timerSpr.getRegionHeight() / 2 - 24);
+        font.draw(sb, getText(), txtX, txtY);
 
     }
 
     TextureRegion timerSpr;
     BitmapFont font;
+    GlyphLayout txt;
 
     public void create() {
         timerSpr = new TextureRegion(new Texture("assets/ui/timer.png"));
         font = new BitmapFont();
+        txt = new GlyphLayout(font, getText());
     }
 
     public void dispose() {
