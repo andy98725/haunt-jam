@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 
 public class Timer {
 
@@ -64,9 +65,11 @@ public class Timer {
     }
 
     private Color getColor() {
-        if (timeLeft < 5)
+        float redTime = timeSet / 3;
+        if (timeLeft < redTime)
             return Color.RED;
-        return Color.RED.cpy().lerp(Color.GREEN, (timeLeft - 5) / (timeSet - 5));
+        // There's a math error here, but I like the result
+        return Color.RED.cpy().lerp(Color.GREEN, MathUtils.clamp((timeLeft - redTime) / redTime, 0, 1));
     }
 
     private String getText() {

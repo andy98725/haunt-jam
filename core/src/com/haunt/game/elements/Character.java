@@ -18,7 +18,7 @@ public class Character extends Element {
 
     private final Level level;
     private State state;
-    private Vector2 vel;
+    private Vector2 vel = new Vector2(), accel = new Vector2();
 
     public Character(Level level) {
         this.level = level;
@@ -54,20 +54,33 @@ public class Character extends Element {
         if (iframes > 0)
             iframes -= Gdx.graphics.getDeltaTime();
 
-        float xvel = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
-        float yvel = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
-
-        if (xvel < 0)
+        int xMov = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
+        int yMov = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
+        if (xMov < 0)
             facingLeft = true;
-        else if (xvel > 0)
+        else if (xMov > 0)
             facingLeft = false;
-        // TODO manipulate velocities in state (add accel)
 
-        xvel *= X_VELOCITY * Gdx.graphics.getDeltaTime();
-        yvel *= Y_VELOCITY * Gdx.graphics.getDeltaTime();
+        vel = new Vector2(xMov * X_VELOCITY, yMov * Y_VELOCITY);
+        accel = new Vector2();
+
+        // Done this way because of math
+        applyVelocity(vel.x / 2, vel.y / 2);
+        vel.x += accel.x * Gdx.graphics.getDeltaTime();
+        vel.y += accel.y * Gdx.graphics.getDeltaTime();
+        applyVelocity(vel.x / 2, vel.y / 2);
+
+        // save for ghost
+        positions.add(this.loc);
+        times.add(Gdx.graphics.getDeltaTime());
+        facing.add(facingLeft);
+    }
+
+    private void applyVelocity(float xvel, float yvel) {
+        xvel *= Gdx.graphics.getDeltaTime();
+        yvel *= Gdx.graphics.getDeltaTime();
 
         // Horizontal collision first
-
         if (xvel > 0) { // right
             float checkX = pos.x + pos.width + xvel;
             Tile hit = tileHitX(checkX);
@@ -88,7 +101,6 @@ public class Character extends Element {
         this.updateLoc(new Vector2(loc.x + xvel, loc.y));
 
         // Vertical collision next
-
         if (yvel > 0) { // up
             float checkY = pos.y + pos.height + yvel;
             Tile hit = tileHitY(checkY);
@@ -107,11 +119,6 @@ public class Character extends Element {
             }
         }
         this.updateLoc(new Vector2(loc.x, loc.y + yvel));
-
-        // save for ghost
-        positions.add(this.loc);
-        times.add(Gdx.graphics.getDeltaTime());
-        facing.add(facingLeft);
     }
 
     private static final float err = 0.01f;
