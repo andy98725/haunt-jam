@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
@@ -17,8 +18,8 @@ public class Character extends Element {
     public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
     private final Level level;
-    private State state;
-    private Vector2 vel = new Vector2(), accel = new Vector2();
+    private State state = State.IDLE;
+    private Vector2 vel = new Vector2(), accel = new Vector2(), velocityCap = new Vector2();
 
     public Character(Level level) {
         this.level = level;
@@ -30,7 +31,8 @@ public class Character extends Element {
 
     public void init(Vector2 startLoc) {
         this.state = State.IDLE;
-        this.vel = Vector2.Zero;
+        this.vel = new Vector2();
+        this.accel = new Vector2();
         updateLoc(startLoc);
 
         positions = new ArrayList<Vector2>();
@@ -38,17 +40,8 @@ public class Character extends Element {
         facing = new ArrayList<Boolean>();
     }
 
-    public void reachGoal() {
-        this.iframes = 1;
-    }
-
-    public boolean invincible() {
-        return iframes > 0;
-    }
-
-    private float iframes = 0;
-
-    private static final float X_VELOCITY = 3, Y_VELOCITY = 5;
+    private float iframes;
+    private float coyoteTime;
 
     public void update() {
         if (iframes > 0)
@@ -61,19 +54,90 @@ public class Character extends Element {
         else if (xMov > 0)
             facingLeft = false;
 
-        vel = new Vector2(xMov * X_VELOCITY, yMov * Y_VELOCITY);
-        accel = new Vector2();
+        updateState(state, xMov, yMov);
 
         // Done this way because of math
         applyVelocity(vel.x / 2, vel.y / 2);
         vel.x += accel.x * Gdx.graphics.getDeltaTime();
         vel.y += accel.y * Gdx.graphics.getDeltaTime();
+        if (velocityCap.x >= 0)
+            vel.x = MathUtils.clamp(vel.x, -velocityCap.x, velocityCap.x);
+        if (velocityCap.y >= 0)
+            vel.y = MathUtils.clamp(vel.y, -velocityCap.y, velocityCap.y);
         applyVelocity(vel.x / 2, vel.y / 2);
 
         // save for ghost
         positions.add(this.loc);
         times.add(Gdx.graphics.getDeltaTime());
         facing.add(facingLeft);
+    }
+
+    private void updateState(State st, int xMov, int yMov) {
+        this.state = st;
+        switch (st) {
+            case IDLE:
+                velocityCap = new Vector2(0, 0);
+                // jump done in walk state
+                if (xMov != 0 || yMov != 0)
+                    updateState(State.WALK, xMov, yMov);
+                break;
+            case WALK:
+                velocityCap = new Vector2(4, 0);
+
+                // Jump
+                if (yMov > 0) {
+                    vel.y = 10;
+                    updateState(State.JUMP, xMov, yMov);
+                    break;
+                }
+                // Check fallthrough
+                if (tileHitY(pos.y - err) == Tile.EMPTY) {
+                    if (coyoteTime > 0)
+                        coyoteTime -= Gdx.graphics.getDeltaTime();
+                    else {
+                        updateState(State.JUMP, xMov, yMov);
+                        break;
+                    }
+                } else
+                    coyoteTime = 0f; // TODO test
+
+                // Instant stop on other press
+                if (xMov * vel.x < 0) {
+                    vel.x = 0;
+                    accel.x = 0;
+                } else if (xMov == 0) {
+                    if (Math.abs(vel.x) < 0.5)
+                        vel.x = 0;
+                    accel = new Vector2(-vel.x * 12, 0);
+                } else {
+                    accel = new Vector2(24f * xMov, 0);
+                }
+                if (xMov == 0 && yMov == 0 && vel.x == 0 && accel.x == 0)
+                    updateState(State.IDLE, 0, 0);
+
+                break;
+
+            case JUMP:
+                velocityCap = new Vector2(4, -1);
+                accel = new Vector2(16 * xMov, -16);
+
+                if (vel.y < 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
+                    updateState(State.WALK, xMov, yMov);
+                    break;
+                }
+                if (vel.y > 0 && tileHitY(pos.y + pos.height + err) != Tile.EMPTY) {
+                    vel.y = 0;
+                }
+
+                break;
+            case WALLSLIDE:
+                // TODO
+                break;
+            case DASH:
+                // TODO
+                break;
+
+        }
     }
 
     private void applyVelocity(float xvel, float yvel) {
@@ -181,5 +245,13 @@ public class Character extends Element {
         facing = new ArrayList<Boolean>();
 
         return g;
+    }
+
+    public void reachGoal() {
+        this.iframes = 1;
+    }
+
+    public boolean invincible() {
+        return iframes > 0;
     }
 }
