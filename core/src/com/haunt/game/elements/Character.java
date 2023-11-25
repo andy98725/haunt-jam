@@ -12,17 +12,20 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
 import com.haunt.game.Tile;
+import com.haunt.game.ui.Timer;
 
 public class Character extends Element {
     public static final Rectangle shape = new Rectangle(-0.5f, 0, 1, 2);
     public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
     private final Level level;
+    private final Timer t;
     private State state = State.IDLE;
     private Vector2 vel = new Vector2(), accel = new Vector2(), velocityCap = new Vector2();
 
-    public Character(Level level) {
+    public Character(Level level, Timer t) {
         this.level = level;
+        this.t = t;
     }
 
     public enum State {
@@ -67,9 +70,11 @@ public class Character extends Element {
         applyVelocity(vel.x / 2, vel.y / 2);
 
         // save for ghost
-        positions.add(this.loc);
-        times.add(Gdx.graphics.getDeltaTime());
-        facing.add(facingLeft);
+        if (t.timerStarted) {
+            positions.add(this.loc);
+            times.add(Gdx.graphics.getDeltaTime());
+            facing.add(facingLeft);
+        }
     }
 
     private void updateState(State st, int xMov, int yMov) {

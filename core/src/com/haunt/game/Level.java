@@ -11,11 +11,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.elements.Character;
 import com.haunt.game.elements.Ghosts;
 import com.haunt.game.elements.Jar;
-import com.ui.Timer;
+import com.haunt.game.ui.Timer;
 
 public class Level {
 
-    public final Character character = new Character(this);
+    public final Character character;
     public final Jar goal = new Jar();
     public final Ghosts ghosts = new Ghosts();
     public final Terrain terrain;
@@ -27,6 +27,7 @@ public class Level {
     private Vector2[] endLocs;
 
     public Level(String filename) {
+        character = new Character(this, timer);
         String filedata = Gdx.files.local("assets/levels/" + filename).readString();
 
         String[] rows = filedata.split("\n");
