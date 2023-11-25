@@ -1,7 +1,5 @@
 package com.haunt.game;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,12 +26,13 @@ public class Level {
         this.startLoc = startLoc;
         this.endLocs = jarLocs;
 
-        goalIndex = 0;
         restart();
 
     }
 
     public void restart() {
+        goalIndex = 0;
+
         character.init(startLoc);
         goal.updateLoc(endLocs[goalIndex % endLocs.length]);
         ghosts.reset();
@@ -44,9 +43,7 @@ public class Level {
         goal.updateLoc(endLocs[goalIndex % endLocs.length]);
 
         // Create ghost from tracked positions
-        ghosts.addGhost(character.positions, character.times);
-        character.positions = new ArrayList<Vector2>();
-        character.times = new ArrayList<Float>();
+        ghosts.addGhost(character.makeGhost());
         ghosts.resetTimer();
     }
 

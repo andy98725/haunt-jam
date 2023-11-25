@@ -30,6 +30,10 @@ public class Character extends Element {
         this.state = State.IDLE;
         this.vel = Vector2.Zero;
         updateLoc(startLoc);
+
+        positions = new ArrayList<Vector2>();
+        times = new ArrayList<Float>();
+        facing = new ArrayList<Boolean>();
     }
 
     private static final float X_VELOCITY = 3, Y_VELOCITY = 5;
@@ -101,6 +105,7 @@ public class Character extends Element {
         // save for ghost
         positions.add(this.loc);
         times.add(Gdx.graphics.getDeltaTime());
+        facing.add(facingLeft);
     }
 
     private static final float err = 0.01f;
@@ -127,6 +132,7 @@ public class Character extends Element {
 
     public List<Vector2> positions = new ArrayList<Vector2>();
     public List<Float> times = new ArrayList<Float>();
+    public List<Boolean> facing = new ArrayList<Boolean>();
 
     @Override
     protected Rectangle shape() {
@@ -141,5 +147,15 @@ public class Character extends Element {
     @Override
     protected String spriteLoc() {
         return "player/idle.png";
+    }
+
+    public Ghosts.Ghost makeGhost() {
+        Ghosts.Ghost g = new Ghosts.Ghost(positions, times, facing);
+
+        positions = new ArrayList<Vector2>();
+        times = new ArrayList<Float>();
+        facing = new ArrayList<Boolean>();
+
+        return g;
     }
 }
