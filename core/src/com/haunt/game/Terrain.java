@@ -10,25 +10,25 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Terrain {
 
     public static final float ZOOM = 1.5f;
-    private final int[][] levelMap;
+    private final Tile[][] levelMap;
 
-    public Terrain(int[][] map) {
+    public Terrain(Tile[][] map) {
         this.levelMap = map;
     }
 
     public void render(SpriteBatch sb, Camera cam) {
-        for (int i = 0; i < levelMap[0].length; i++)
-            for (int j = 0; j < levelMap.length; j++)
+        for (int i = 0; i < levelMap.length; i++)
+            for (int j = 0; j < levelMap[0].length; j++)
                 if (tileAt(i, j) != null)
                     sb.draw(sprite(i, j), i, j, 1, 1);
     }
 
     public int mapWid() {
-        return levelMap[0].length;
+        return levelMap.length;
     }
 
     public int mapHei() {
-        return levelMap.length;
+        return levelMap[0].length;
     }
 
     public Tile tileAt(float x, float y) {
@@ -37,20 +37,11 @@ public class Terrain {
         if (yy < 0)
             // return Tile.KILL;
             return null;
-        if (xx < 0 || xx >= levelMap[0].length || yy >= levelMap.length)
+        if (xx < 0 || xx >= levelMap.length || yy >= levelMap[0].length)
             // return Tile.SOLID;
             return null;
 
-        switch (levelMap[levelMap.length - 1 - yy][xx]) {
-            default:
-            case 0:
-                return Tile.EMPTY;
-            case 1:
-                return Tile.SOLID;
-            case 2:
-                return Tile.KILL;
-        }
-
+        return levelMap[xx][yy];
     }
 
     private final HashMap<Tile, TextureRegion> spr = new HashMap<Tile, TextureRegion>();

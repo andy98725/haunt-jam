@@ -2,8 +2,8 @@ package com.haunt.game.elements;
 
 import com.badlogic.gdx.math.Rectangle;
 
-public class Goal extends Element {
-    public static final Rectangle shape = new Rectangle(-0.5f, -0.5f, 1f, 1f);
+public class Jar extends Element {
+    public static final Rectangle shape = new Rectangle(-0.5f, 0, 1f, 1f);
 
     @Override
     protected Rectangle shape() {

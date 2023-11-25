@@ -1,19 +1,21 @@
 package com.haunt.game;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.elements.Character;
 import com.haunt.game.elements.Ghosts;
-import com.haunt.game.elements.Goal;
+import com.haunt.game.elements.Jar;
 
 public class Level {
 
     public final Character character = new Character(this);
-    public final Goal goal = new Goal();
+    public final Jar goal = new Jar();
     public final Ghosts ghosts = new Ghosts();
     public final Terrain terrain;
     private Camera cam;
@@ -22,15 +24,45 @@ public class Level {
     private int goalIndex;
     private Vector2[] endLocs;
 
-    public Level(int[][] map, Vector2 startLoc, Vector2[] jarLocs) {
-        this.terrain = new Terrain(map);
+    public Level(String filename) {
+        String filedata = Gdx.files.local("levels/" + filename).readString();
 
-        this.startLoc = startLoc;
-        this.endLocs = jarLocs;
+        String[] rows = filedata.split("\n");
+        int cols = rows[0].split(",").length;
+
+        Tile[][] tileData = new Tile[cols][rows.length];
+        List<Vector2> jarLocs = new ArrayList<Vector2>();
+        List<Integer> jarIDs = new ArrayList<Integer>();
+
+        for (int j = 0; j < rows.length; j++) {
+            String[] data = rows[rows.length - 1 - j].split(",");
+            for (int i = 0; i < data.length; i++) {
+                int t = Integer.parseInt(data[i].trim());
+                if (t == 1)
+                    tileData[i][j] = Tile.SOLID;
+                else if (t == 7) {
+                    tileData[i][j] = Tile.EMPTY;
+                    this.startLoc = new Vector2(i, j);
+                } else if (t > 7) {
+                    tileData[i][j] = Tile.EMPTY;
+                    jarLocs.add(new Vector2(i, j));
+                    jarIDs.add(t - 8);
+                } else if (t < 0)
+                    tileData[i][j] = Tile.EMPTY;
+                else
+                    throw new RuntimeException("Unidentified tile data " + t);
+
+            }
+        }
+
+        Vector2[] jars = new Vector2[jarIDs.size()];
+        for (int i = 0; i < jars.length; i++)
+            jars[jarIDs.get(i)] = jarLocs.get(i);
+
+        this.endLocs = jars;
+        this.terrain = new Terrain(tileData);
 
         restart();
-
-        goal.updateLoc(new Vector2(startLoc.x + 2, startLoc.y));
     }
 
     public void restart() {
@@ -42,10 +74,10 @@ public class Level {
 
     }
 
-    private static final Random r = new Random();
-
     public void reachGoal() {
         goalIndex++;
+        if (goalIndex >= endLocs.length)
+            Gdx.app.log("YOU WIN", "!!!");
         goal.updateLoc(endLocs[goalIndex % endLocs.length]);
         character.reachGoal();
 
@@ -53,10 +85,6 @@ public class Level {
         ghosts.addGhost(character.makeGhost());
         ghosts.resetTimer();
 
-        // TEMP randomize location
-        do {
-            goal.updateLoc(new Vector2(0.5f + r.nextInt(terrain.mapWid()), 0.5f + r.nextInt(terrain.mapHei())));
-        } while (terrain.tileAt(goal.loc.x, goal.loc.y) != Tile.EMPTY);
     }
 
     public void update() {
