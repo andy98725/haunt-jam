@@ -40,13 +40,13 @@ public class Level {
                 int t = Integer.parseInt(data[i].trim());
                 if (t == 1)
                     tileData[i][j] = Tile.SOLID;
-                else if (t == 7) {
+                else if (t == 5) {
                     tileData[i][j] = Tile.EMPTY;
                     this.startLoc = new Vector2(i, j);
-                } else if (t > 7) {
+                } else if (t >= 10) {
                     tileData[i][j] = Tile.EMPTY;
                     jarLocs.add(new Vector2(i, j));
-                    jarIDs.add(t - 8);
+                    jarIDs.add(t - 10);
                 } else if (t < 0)
                     tileData[i][j] = Tile.EMPTY;
                 else

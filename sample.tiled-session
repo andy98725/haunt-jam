@@ -3,24 +3,38 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "sampleLevel.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "sampleLevel.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 580,
+                "y": 407.3333333333333
+            }
+        },
         "tiles.tsx": {
-            "dynamicWrapping": true
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
-    "last.exportedFilePath": "C:/Shared/Projects/haunt-jam",
-    "last.imagePath": "C:/Shared/Projects/haunt-jam",
+    "last.exportedFilePath": "C:/Shared/Projects/haunt-jam/assets/levels",
+    "last.imagePath": "C:/Shared/Projects/haunt-jam/assets/environment",
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "sampleLevel.tmx"
     ],
     "project": "sample.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "sampleLevel.tmx",
+        "tiles.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.type": 1
