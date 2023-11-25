@@ -122,22 +122,22 @@ public class Terrain {
                 tileX = 0;
                 tileY = 1;
             } else {
-                tileX = 1;
-                tileY = 1;
+                tileX = 3;
+                tileY = 0;
             }
         } else if (!tileAbove && !tileBelow) {
             if (tileLeft && tileRight) {
-                tileX = 1;
-                tileY = 1;
-            } else if (tileLeft && !tileRight) {
-                tileX = 2;
-                tileY = 1;
-            } else if (!tileLeft && tileRight) {
-                tileX = 0;
-                tileY = 1;
-            } else {
                 tileX = 4;
                 tileY = 1;
+            } else if (tileLeft && !tileRight) {
+                tileX = 5;
+                tileY = 1;
+            } else if (!tileLeft && tileRight) {
+                tileX = 3;
+                tileY = 1;
+            } else {
+                tileX = 3;
+                tileY = 2;
             }
         }
 
