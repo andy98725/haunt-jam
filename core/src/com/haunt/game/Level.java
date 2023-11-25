@@ -1,5 +1,7 @@
 package com.haunt.game;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -28,6 +30,7 @@ public class Level {
 
         restart();
 
+        goal.updateLoc(new Vector2(startLoc.x + 2, startLoc.y));
     }
 
     public void restart() {
@@ -36,15 +39,24 @@ public class Level {
         character.init(startLoc);
         goal.updateLoc(endLocs[goalIndex % endLocs.length]);
         ghosts.reset();
+
     }
+
+    private static final Random r = new Random();
 
     public void reachGoal() {
         goalIndex++;
         goal.updateLoc(endLocs[goalIndex % endLocs.length]);
+        character.reachGoal();
 
         // Create ghost from tracked positions
         ghosts.addGhost(character.makeGhost());
         ghosts.resetTimer();
+
+        // TEMP randomize location
+        do {
+            goal.updateLoc(new Vector2(0.5f + r.nextInt(terrain.mapWid()), 0.5f + r.nextInt(terrain.mapHei())));
+        } while (terrain.tileAt(goal.loc.x, goal.loc.y) != Tile.EMPTY);
     }
 
     public void update() {
@@ -54,13 +66,7 @@ public class Level {
 
         ghosts.update();
 
-        boolean collided = false;
-        for (Ghosts.Ghost g : ghosts.ghosts)
-            if (character.pos.overlaps(g.pos)) {
-                collided = true;
-                break;
-            }
-        if (collided)
+        if (!character.invincible() && ghosts.ghostCollided(character.pos))
             restart();
 
         if (character.pos.overlaps(goal.pos))

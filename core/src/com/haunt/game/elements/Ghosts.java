@@ -28,13 +28,15 @@ public class Ghosts {
     public void render(SpriteBatch sb) {
         sb.setColor(transparent);
         for (Ghost g : ghosts)
-            g.render(sb);
+            if (g.isMoving())
+                g.render(sb);
         sb.setColor(Color.WHITE);
     }
 
     public void resetTimer() {
         for (Ghost g : ghosts)
-            g.reset();
+            if (g.isMoving())
+                g.reset();
     }
 
     public void create() {
@@ -52,6 +54,14 @@ public class Ghosts {
         for (Ghost g : ghosts)
             g.dispose();
         ghosts.clear();
+    }
+
+    public boolean ghostCollided(Rectangle bounds) {
+        for (Ghost g : ghosts)
+            if (g.isMoving() && g.pos.overlaps(bounds))
+                return true;
+
+        return false;
 
     }
 
@@ -73,6 +83,10 @@ public class Ghosts {
             this.facingData = facing;
 
             reset();
+        }
+
+        public boolean isMoving() {
+            return curPos.size() > 1;
         }
 
         protected void reset() {

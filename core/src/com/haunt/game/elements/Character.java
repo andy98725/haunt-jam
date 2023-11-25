@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
@@ -36,9 +38,21 @@ public class Character extends Element {
         facing = new ArrayList<Boolean>();
     }
 
+    public void reachGoal() {
+        this.iframes = 1;
+    }
+
+    public boolean invincible() {
+        return iframes > 0;
+    }
+
+    private float iframes = 0;
+
     private static final float X_VELOCITY = 3, Y_VELOCITY = 5;
 
     public void update() {
+        if (iframes > 0)
+            iframes -= Gdx.graphics.getDeltaTime();
 
         float xvel = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
         float yvel = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
@@ -147,6 +161,17 @@ public class Character extends Element {
     @Override
     protected String spriteLoc() {
         return "player/idle.png";
+    }
+
+    private static Color invincibleCol = new Color(1, 1, 1, 0.75f);
+
+    @Override
+    public void render(SpriteBatch sb) {
+        if (invincible())
+            sb.setColor(invincibleCol);
+        super.render(sb);
+        if (invincible())
+            sb.setColor(Color.WHITE);
     }
 
     public Ghosts.Ghost makeGhost() {

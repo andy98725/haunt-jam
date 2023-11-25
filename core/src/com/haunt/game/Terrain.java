@@ -23,6 +23,14 @@ public class Terrain {
                     sb.draw(sprite(i, j), i, j, 1, 1);
     }
 
+    public int mapWid() {
+        return levelMap[0].length;
+    }
+
+    public int mapHei() {
+        return levelMap.length;
+    }
+
     public Tile tileAt(float x, float y) {
         int xx = (int) x, yy = (int) y;
 
