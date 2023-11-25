@@ -72,9 +72,7 @@ public class Character extends Element {
             float checkX = pos.x + pos.width + xvel;
             Tile hit = tileHitX(checkX);
 
-            if (hit == Tile.KILL)
-                level.playerDies();
-            else if (hit == Tile.SOLID || hit == Tile.SOLID) {
+            if (hit == Tile.SOLID) {
                 float newMaxX = checkX - (checkX % 1);
                 xvel = Math.max(0, xvel + newMaxX - checkX);
             }
@@ -82,9 +80,7 @@ public class Character extends Element {
             float checkX = pos.x + xvel;
             Tile hit = tileHitX(checkX);
 
-            if (hit == Tile.KILL)
-                level.playerDies();
-            else if (hit == Tile.SOLID || hit == Tile.SOLID) {
+            if (hit == Tile.SOLID) {
                 float newMinX = checkX + 1 - (checkX % 1);
                 xvel = Math.min(0, xvel + newMinX - checkX);
             }
@@ -97,9 +93,7 @@ public class Character extends Element {
             float checkY = pos.y + pos.height + yvel;
             Tile hit = tileHitY(checkY);
 
-            if (hit == Tile.KILL)
-                level.playerDies();
-            else if (hit == Tile.SOLID || hit == Tile.SOLID) {
+            if (hit == Tile.SOLID) {
                 float newMaxY = checkY - (checkY % 1);
                 yvel = Math.max(0, yvel + newMaxY - checkY);
             }
@@ -107,9 +101,7 @@ public class Character extends Element {
             float checkY = pos.y + yvel;
             Tile hit = tileHitY(checkY);
 
-            if (hit == Tile.KILL)
-                level.playerDies();
-            else if (hit == Tile.SOLID || hit == Tile.SOLID) {
+            if (hit == Tile.SOLID) {
                 float newMinY = checkY + 1 - (checkY % 1);
                 yvel = Math.min(0, yvel + newMinY - checkY);
             }

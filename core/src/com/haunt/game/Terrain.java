@@ -19,8 +19,13 @@ public class Terrain {
     public void render(SpriteBatch sb, Camera cam) {
         for (int i = 0; i < levelMap.length; i++)
             for (int j = 0; j < levelMap[0].length; j++)
-                if (tileAt(i, j) != null)
+                if (tileAt(i, j) != null) {
                     sb.draw(sprite(i, j), i, j, 1, 1);
+                    TextureRegion foreground = foregroundSprite(i, j);
+                    if (foreground != null)
+                        sb.draw(foreground, i, j, 1, 1);
+
+                }
     }
 
     public int mapWid() {
@@ -50,7 +55,9 @@ public class Terrain {
         spr.put(Tile.EMPTY, new TextureRegion(new Texture("assets/environment/bg.png")).split(64, 64));
         spr.put(Tile.SOLID,
                 new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
-        spr.put(Tile.KILL, new TextureRegion(new Texture("assets/environment/kill.png")).split(32, 32));
+        spr.put(Tile.D_DRAWER, new TextureRegion(new Texture("assets/environment/bg/drawer.png")).split(32, 32));
+        spr.put(Tile.D_VASE, new TextureRegion(new Texture("assets/environment/bg/vase.png")).split(32, 32));
+        spr.put(Tile.D_WINDOW, new TextureRegion(new Texture("assets/environment/bg/window.png")).split(32, 32));
     }
 
     public void dispose() {
@@ -58,8 +65,16 @@ public class Terrain {
             t[0][0].getTexture().dispose();
     }
 
-    private TextureRegion sprite(float x, float y) {
+    private TextureRegion foregroundSprite(float x, float y) {
         Tile t = tileAt(x, y);
+        if (t == t.bgTile())
+            return null;
+        return spr.get(t)[0][0];
+
+    }
+
+    private TextureRegion sprite(float x, float y) {
+        Tile t = tileAt(x, y).bgTile();
         TextureRegion[][] currentTileset = spr.get(t);
         int tileX = 0;
         int tileY = 0;

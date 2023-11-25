@@ -41,20 +41,43 @@ public class Level {
         for (int j = 0; j < rows.length; j++) {
             String[] data = rows[rows.length - 1 - j].split(",");
             for (int i = 0; i < data.length; i++) {
-                int t = Integer.parseInt(data[i].trim());
-                if (t == 1)
-                    tileData[i][j] = Tile.SOLID;
-                else if (t == 5) {
-                    tileData[i][j] = Tile.EMPTY;
-                    this.startLoc = new Vector2(i, j);
-                } else if (t >= 10) {
-                    tileData[i][j] = Tile.EMPTY;
-                    jarLocs.add(new Vector2(i, j));
-                    jarIDs.add(t - 10);
-                } else if (t < 0)
-                    tileData[i][j] = Tile.EMPTY;
-                else
-                    throw new RuntimeException("Unidentified tile data " + t);
+                int id = Integer.parseInt(data[i].trim());
+                boolean matched = false;
+                for (Tile t : Tile.values())
+                    if (t.mapID == id) {
+                        tileData[i][j] = t;
+                        matched = true;
+                        break;
+                    }
+                if (matched)
+                    continue;
+
+                switch (id) {
+                    case 5:
+                        tileData[i][j] = Tile.EMPTY;
+                        this.startLoc = new Vector2(i, j);
+                        break;
+                    case 6:
+                        tileData[i][j] = null;
+                        break;
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                    case 19:
+                        tileData[i][j] = Tile.EMPTY;
+                        jarLocs.add(new Vector2(i, j));
+                        jarIDs.add(id - 10);
+                        break;
+                    default:
+                        throw new RuntimeException("Unidentified tile data: " + id);
+
+                }
 
             }
         }
