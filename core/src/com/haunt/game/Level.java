@@ -21,7 +21,7 @@ public class Level {
     public final Jar goal = new Jar();
     public final Ghosts ghosts = new Ghosts();
     public final Terrain terrain;
-    public final Timer timer = new Timer(15);
+    public final Timer timer = new Timer(15, 5);
     private Camera cam;
 
     private Vector2 startLoc;
@@ -99,7 +99,7 @@ public class Level {
         // Create ghost from tracked positions
         ghosts.addGhost(character.makeGhost());
         ghosts.resetTimer();
-        timer.resetTimer();
+        timer.incrementTimer();
 
     }
 

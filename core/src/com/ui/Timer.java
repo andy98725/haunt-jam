@@ -10,15 +10,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Timer {
 
     private final float timeSet;
+    private final float timeIncrement;
     private float timeLeft;
 
-    public Timer(float initialTime) {
+    public Timer(float initialTime, float increment) {
         this.timeSet = initialTime;
+        this.timeIncrement = increment;
         resetTimer();
     }
 
     public void resetTimer() {
         timeLeft = timeSet;
+    }
+
+    public void incrementTimer() {
+        timeLeft += timeIncrement;
     }
 
     // Returns if the player ran out of time
