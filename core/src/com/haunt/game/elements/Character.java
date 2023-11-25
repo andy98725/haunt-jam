@@ -73,7 +73,7 @@ public class Character extends Element {
             Tile hit = tileHitX(checkX);
 
             if (hit == Tile.KILL)
-                level.restart();
+                level.playerDies();
             else if (hit == Tile.SOLID || hit == Tile.SOLID) {
                 float newMaxX = checkX - (checkX % 1);
                 xvel = Math.max(0, xvel + newMaxX - checkX);
@@ -83,7 +83,7 @@ public class Character extends Element {
             Tile hit = tileHitX(checkX);
 
             if (hit == Tile.KILL)
-                level.restart();
+                level.playerDies();
             else if (hit == Tile.SOLID || hit == Tile.SOLID) {
                 float newMinX = checkX + 1 - (checkX % 1);
                 xvel = Math.min(0, xvel + newMinX - checkX);
@@ -98,7 +98,7 @@ public class Character extends Element {
             Tile hit = tileHitY(checkY);
 
             if (hit == Tile.KILL)
-                level.restart();
+                level.playerDies();
             else if (hit == Tile.SOLID || hit == Tile.SOLID) {
                 float newMaxY = checkY - (checkY % 1);
                 yvel = Math.max(0, yvel + newMaxY - checkY);
@@ -108,7 +108,7 @@ public class Character extends Element {
             Tile hit = tileHitY(checkY);
 
             if (hit == Tile.KILL)
-                level.restart();
+                level.playerDies();
             else if (hit == Tile.SOLID || hit == Tile.SOLID) {
                 float newMinY = checkY + 1 - (checkY % 1);
                 yvel = Math.min(0, yvel + newMinY - checkY);
@@ -160,7 +160,7 @@ public class Character extends Element {
 
     @Override
     protected String spriteLoc() {
-        return "player/idle.png";
+        return "assets/player/idle.png";
     }
 
     private static Color invincibleCol = new Color(1, 1, 1, 0.75f);

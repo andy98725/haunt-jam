@@ -47,9 +47,9 @@ public class Terrain {
     private final HashMap<Tile, TextureRegion> spr = new HashMap<Tile, TextureRegion>();
 
     public void create() {
-        spr.put(Tile.EMPTY, new TextureRegion(new Texture("environment/bg.png")));
-        spr.put(Tile.SOLID, new TextureRegion(new Texture("environment/solid.png")));
-        spr.put(Tile.KILL, new TextureRegion(new Texture("environment/kill.png")));
+        spr.put(Tile.EMPTY, new TextureRegion(new Texture("assets/environment/bg.png")));
+        spr.put(Tile.SOLID, new TextureRegion(new Texture("assets/environment/solid.png")));
+        spr.put(Tile.KILL, new TextureRegion(new Texture("assets/environment/kill.png")));
     }
 
     public void dispose() {

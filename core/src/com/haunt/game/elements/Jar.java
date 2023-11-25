@@ -17,7 +17,7 @@ public class Jar extends Element {
 
     @Override
     protected String spriteLoc() {
-        return "environment/goal.png";
+        return "assets/environment/goal.png";
     }
 
 }

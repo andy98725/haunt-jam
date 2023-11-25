@@ -9,12 +9,15 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "editor/tiles.tsx": {
+            "dynamicWrapping": false
+        },
         "sampleLevel.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 580,
-                "y": 407.3333333333333
+                "x": 710.6666666666666,
+                "y": 273.99999999999994
             }
         },
         "tiles.tsx": {

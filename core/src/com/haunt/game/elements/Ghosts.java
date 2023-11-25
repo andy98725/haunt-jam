@@ -135,7 +135,7 @@ public class Ghosts {
 
         @Override
         protected String spriteLoc() {
-            return "environment/ghost.png";
+            return "assets/environment/ghost.png";
         }
 
     }

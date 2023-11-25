@@ -10,7 +10,7 @@
       "request": "launch",
       "mainClass": "com.haunt.game.DesktopLauncher",
       "projectName": "Haunted Jam-desktop",
-      "cwd": "${workspaceFolder}/assets",
+      "cwd": "${workspaceFolder}",
       "vmArgs": "-enableassertions"
     }
   ]
