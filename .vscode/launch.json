@@ -9,8 +9,8 @@
       "name": "Desktop LibGDX",
       "request": "launch",
       "mainClass": "com.haunt.game.DesktopLauncher",
-      "projectName": "haunt-jam-desktop",
-      "cwd": "${workspaceFolder}",
+      "projectName": "Haunted Jam-desktop",
+      "cwd": "${workspaceFolder}/assets",
       "vmArgs": "-enableassertions"
     }
   ]

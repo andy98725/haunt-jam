@@ -1,5 +1,8 @@
 package com.haunt.game.elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
@@ -94,6 +97,10 @@ public class Character extends Element {
             }
         }
         this.updateLoc(new Vector2(loc.x, loc.y + yvel));
+
+        // save for ghost
+        positions.add(this.loc);
+        times.add(Gdx.graphics.getDeltaTime());
     }
 
     private static final float err = 0.01f;
@@ -102,7 +109,7 @@ public class Character extends Element {
         Tile hit = Tile.EMPTY;
         for (float y = pos.getY() + err; y <= pos.getY() + pos.getHeight() - err; y += 0.5f - err) {
             Tile hitPos = level.terrain.tileAt(newX, y);
-            if (hitPos.priority > hit.priority)
+            if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }
         return hit;
@@ -112,11 +119,14 @@ public class Character extends Element {
         Tile hit = Tile.EMPTY;
         for (float x = pos.getX() + err; x <= pos.getX() + pos.getWidth() - err; x += 0.5f - err) {
             Tile hitPos = level.terrain.tileAt(x, newY);
-            if (hitPos.priority > hit.priority)
+            if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }
         return hit;
     }
+
+    public List<Vector2> positions = new ArrayList<Vector2>();
+    public List<Float> times = new ArrayList<Float>();
 
     @Override
     protected Rectangle shape() {

@@ -27,7 +27,7 @@ public class HauntGame extends ApplicationAdapter {
 			{ 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-	}, new Vector2(6, 7), new Vector2[] { new Vector2(19, 9) });
+	}, new Vector2(6, 7), new Vector2[] { new Vector2(19, 9), new Vector2(10, 5) });
 
 	@Override
 	public void create() {
