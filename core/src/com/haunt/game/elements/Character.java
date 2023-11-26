@@ -177,12 +177,12 @@ public class Character extends Entity {
                     updateState(State.WALK, xMov, yMov);
                     break;
                 }
-                if (vel.x < 0 && xMov <= 0 && tileHitX(pos.x - err) == Tile.SOLID) {
+                if (((vel.x < 0 && xMov == 0) || xMov < 0) && tileHitX(pos.x - err) == Tile.SOLID) {
                     vel.y *= 0.8;
                     updateState(State.WALLSLIDE, xMov, yMov);
                     break;
                 }
-                if (vel.x > 0 && xMov >= 0 && tileHitX(pos.x + pos.width + err) == Tile.SOLID) {
+                if (((vel.x > 0 && xMov == 0) || xMov > 0) && tileHitX(pos.x + pos.width + err) == Tile.SOLID) {
                     vel.y *= 0.8;
                     updateState(State.WALLSLIDE, xMov, yMov);
                     break;
