@@ -45,8 +45,12 @@ public class Level {
                 boolean matched = false;
                 for (Tile t : Tile.values())
                     if (t.mapID == id) {
-                        tileData[i][j] = t;
                         matched = true;
+                        if (tileData[i][j] == null)
+                            tileData[i][j] = t;
+
+                        if (t == Tile.D_DOOR || t == Tile.D_CLOCK)
+                            tileData[i][j + 1] = t;
                         break;
                     }
                 if (matched)

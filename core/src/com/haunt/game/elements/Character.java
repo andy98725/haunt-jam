@@ -212,6 +212,21 @@ public class Character extends Element {
             if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }
+
+        if (hit == Tile.FALLTHROUGH) {
+            if (Gdx.input.isKeyPressed(Input.Keys.S))
+                return Tile.EMPTY;
+            if (newY > pos.y)
+                return Tile.EMPTY;
+
+            Gdx.app.log("y1", ((int) pos.y + err) + "");
+            Gdx.app.log("y2", (int) newY + "");
+            // Only block fallthrough on top
+            if ((int) (pos.y + err) == (int) newY)
+                return Tile.EMPTY;
+
+            return Tile.SOLID;
+        }
         return hit;
     }
 
