@@ -34,6 +34,14 @@
                 "y": 304.07239819004525
             }
         },
+        "editor/LevelCircuit.tmx": {
+            "scale": 0.8946732954545454,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 352.6426927046122,
+                "y": 336.43565928395645
+            }
+        },
         "editor/LevelDoubleBack.tmx": {
             "scale": 0.7029575892857142,
             "selectedLayer": 0,
