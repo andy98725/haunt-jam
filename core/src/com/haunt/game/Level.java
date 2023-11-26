@@ -9,15 +9,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.elements.Character;
-import com.haunt.game.elements.Ghosts;
+import com.haunt.game.elements.Entities;
+import com.haunt.game.elements.Ghost;
 import com.haunt.game.elements.Jar;
 import com.haunt.game.ui.Timer;
 
 public class Level {
 
     public final Character character;
-    public final Jar goal = new Jar();
-    public final Ghosts ghosts = new Ghosts();
+    public final List<Jar> goals = new ArrayList<Jar>();
+    public final Entities entities = new Entities();
     public final Terrain terrain;
     public final Timer timer = new Timer(15, 5);
     private Camera cam;
@@ -100,45 +101,51 @@ public class Level {
         goalIndex = 0;
 
         character.init(startLoc);
-        goal.updateLoc(endLocs[goalIndex % endLocs.length]);
-        ghosts.reset();
+        entities.clear();
+        entities.add(new Jar(endLocs, 0));
         timer.resetTimer();
     }
 
-    public void reachGoal() {
-        ghosts.addGhost(character.makeGhost(goal.loc));
-        ghosts.resetTimer();
+    private static final boolean ENDLESS_MODE = false;
+    public boolean isPaused = false;
+
+    public void reachGoal(Jar j) {
+
+        character.reachGoal();
         timer.incrementTimer();
+        entities.add(new Ghost(character));
 
         goalIndex++;
         if (goalIndex >= endLocs.length) {
             Gdx.app.log("YOU WIN", "!!!");
+            // Random location
+            if (ENDLESS_MODE)
+                entities.add(new Jar(this));
+            else
+                isPaused = true;
+        } else {
+            entities.add(new Jar(endLocs, goalIndex));
+        }
 
-            // Random map location
-            do {
-                goal.updateLoc(
-                        new Vector2(Util.random.nextInt(terrain.mapWid()), Util.random.nextInt(terrain.mapHei())));
-            } while (terrain.tileAt(goal.loc.x, goal.loc.y) != Tile.EMPTY);
-
-        } else
-            goal.updateLoc(endLocs[goalIndex % endLocs.length]);
-        character.reachGoal();
     }
 
     public void update() {
+        if (isPaused)
+            return;
+
         character.update();
         this.cam.position.set(character.loc.x, character.loc.y, 0);
         this.cam.update();
 
-        ghosts.update();
+        entities.update();
 
-        if (!character.invincible() && ghosts.ghostCollided(character.pos))
-            playerDies();
+        for (int i = 0; i < entities.entities.size(); i++)
+            if (entities.entities.get(i).collided(character.pos))
+                if (entities.entities.get(i).onCollision(this)) {
+                    break;
+                }
 
-        else if (character.pos.overlaps(goal.pos))
-            reachGoal();
-
-        else if (timer.update())
+        if (timer.update())
             playerDies();
 
     }
@@ -150,8 +157,7 @@ public class Level {
             HauntGame.debugRenderer.setProjectionMatrix(cam.combined);
 
         terrain.render(sb, cam);
-        ghosts.render(sb);
-        goal.render(sb);
+        entities.render(sb);
         character.render(sb);
 
         // UI
@@ -169,16 +175,14 @@ public class Level {
         this.cam = new OrthographicCamera();
         terrain.create();
         character.create();
-        ghosts.create();
-        goal.create();
+        entities.create();
         timer.create();
     }
 
     public void dispose() {
         terrain.dispose();
         character.dispose();
-        ghosts.dispose();
-        goal.dispose();
+        entities.dispose();
         timer.dispose();
     }
 

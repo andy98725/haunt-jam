@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.HauntGame;
+import com.haunt.game.Level;
 
 public abstract class Element {
     protected boolean facingLeft;
@@ -15,6 +16,20 @@ public abstract class Element {
     protected abstract Rectangle drawShape();
 
     protected abstract String spriteLoc();
+
+    // Returns should be removed
+    public boolean update() {
+        return false;
+    }
+
+    public boolean collided(Rectangle pos) {
+        return this.pos.overlaps(pos);
+    }
+
+    // Returns used; 1 collision allowed per frame
+    public boolean onCollision(Level l) {
+        return false;
+    }
 
     public Vector2 loc;
     public Rectangle pos, drawPos;

@@ -29,7 +29,7 @@ public class Character extends Element {
     }
 
     public enum State {
-        IDLE, WALK, JUMP, DASH, WALLSLIDE
+        IDLE, WALK, JUMP, WALLSLIDE
     }
 
     public void init(Vector2 startLoc) {
@@ -46,7 +46,7 @@ public class Character extends Element {
     private float iframes;
     private float coyoteTime;
 
-    public void update() {
+    public boolean update() {
         if (iframes > 0)
             iframes -= Gdx.graphics.getDeltaTime();
 
@@ -70,11 +70,12 @@ public class Character extends Element {
         applyVelocity(vel.x / 2, vel.y / 2);
 
         // save for ghost
-        if (t.timerStarted) {
+        if (t.timerStarted && !level.isPaused) {
             positions.add(this.loc);
             times.add(Gdx.graphics.getDeltaTime());
             facing.add(facingLeft);
         }
+        return false;
     }
 
     private void updateState(State st, int xMov, int yMov) {
@@ -121,7 +122,8 @@ public class Character extends Element {
 
             case JUMP:
                 velocityCap = new Vector2(4, -1);
-                accel = new Vector2(16 * xMov, -16);
+                boolean fullhop = yMov > 0 && vel.y > 0;
+                accel = new Vector2(16 * xMov, fullhop ? -16 : -24);
 
                 if (coyoteTime > 0)
                     coyoteTime -= Gdx.graphics.getDeltaTime();
@@ -139,10 +141,6 @@ public class Character extends Element {
             case WALLSLIDE:
                 // TODO
                 break;
-            case DASH:
-                // TODO
-                break;
-
         }
     }
 
@@ -240,21 +238,11 @@ public class Character extends Element {
 
     @Override
     public void render(SpriteBatch sb) {
-        if (invincible())
-            sb.setColor(invincibleCol);
+        // if (invincible())
+        // sb.setColor(invincibleCol);
         super.render(sb);
-        if (invincible())
-            sb.setColor(Color.WHITE);
-    }
-
-    public Ghosts.Ghost makeGhost(Vector2 goalPos) {
-        Ghosts.Ghost g = new Ghosts.Ghost(positions, times, facing, new Jar.FakeJar(goalPos));
-
-        positions = new ArrayList<Vector2>();
-        times = new ArrayList<Float>();
-        facing = new ArrayList<Boolean>();
-
-        return g;
+        // if (invincible())
+        // sb.setColor(Color.WHITE);
     }
 
     public void reachGoal() {
