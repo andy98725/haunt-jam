@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -82,6 +81,13 @@ public class Character extends Entity {
             times.add(Gdx.graphics.getDeltaTime());
             facing.add(facingLeft);
         }
+
+        // Delay state change until end of animations
+        if (state == State.LOSE && animationTime > 0.25f + loseAnim.getAnimationDuration())
+            level.restart();
+        if (state == State.WIN && animationTime > 0.25f + winAnim.getAnimationDuration())
+            level.nextLevel();
+
         return false;
     }
 
@@ -149,7 +155,7 @@ public class Character extends Entity {
                     break;
                 }
 
-                if (vel.y < 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
+                if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
                     updateState(State.WALK, xMov, yMov);
                     break;
                 }
@@ -161,7 +167,7 @@ public class Character extends Entity {
             case LOSE:
             case WIN:
                 velocityCap = new Vector2(-1, -1);
-                this.accel = new Vector2(-vel.x * 32, -64);
+                this.accel = new Vector2(-vel.x * 32, -32);
                 if (Math.abs(vel.x) < 2)
                     vel.x = 0;
 
@@ -216,7 +222,7 @@ public class Character extends Entity {
             if (hit == Tile.SOLID) {
                 float newMinY = checkY + 1 - (checkY % 1);
                 yvel = Math.min(0, yvel + newMinY - checkY);
-                // this.vel.y = yvel; Not done for collision checking reasons
+                this.vel.y = yvel; // Not done for collision checking reasons
             }
         }
         this.updateLoc(new Vector2(loc.x, loc.y + yvel));
@@ -269,16 +275,6 @@ public class Character extends Entity {
     @Override
     protected Rectangle drawShape() {
         return drawShape;
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        super.render(sb);
-
-        if (state == State.LOSE && animationTime > loseAnim.getAnimationDuration())
-            level.restart();
-        if (state == State.WIN && animationTime > loseAnim.getAnimationDuration())
-            level.nextLevel();
     }
 
     public void reachGoal(boolean win) {

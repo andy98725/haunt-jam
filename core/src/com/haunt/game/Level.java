@@ -123,6 +123,7 @@ public class Level {
 
     public void restart() {
         goalIndex = 0;
+        isPaused = false;
 
         character.init(startLoc);
         entities.clear();
