@@ -111,6 +111,14 @@ public class Character extends Entity {
                     updateState(State.WALK, xMov, yMov);
                 }
 
+                // Check falling
+                if (tileHitY(pos.y - err) == Tile.EMPTY) {
+                    coyoteTime = COYOTE_TIME;
+                    this.animationTime = 1;
+                    updateState(State.JUMP, xMov, yMov);
+                    break;
+                }
+
                 break;
             case WALK:
                 velocityCap = new Vector2(8, 0);
