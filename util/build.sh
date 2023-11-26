@@ -3,7 +3,7 @@
 ./gradlew desktop:dist
 cp ./desktop/build/libs/desktop-1.0.jar ./util/hauntGame.jar
 
-rm ./out/win/ -r
+rm ./out/* -r
 java -jar ./util/packr-all-4.0.0.jar \
      --platform windows64 \
      --jdk "C:\\Program Files\\Java\\jdk-21" \
@@ -16,3 +16,7 @@ java -jar ./util/packr-all-4.0.0.jar \
      --output out/win
 
 cp -r ./assets ./out/win/assets
+
+mkdir ./out/jar
+cp ./desktop/build/libs/desktop-1.0.jar ./out/jar/hauntGame.jar
+cp -r ./assets ./out/jar/assets

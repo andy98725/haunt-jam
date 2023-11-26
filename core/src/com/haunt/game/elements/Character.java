@@ -46,7 +46,7 @@ public class Character extends Entity {
         facing = new ArrayList<Boolean>();
     }
 
-    private static final float COYOTE_TIME = 0.12f;
+    private static final float COYOTE_TIME = 0.12f, WJ_COYOTE_TIME = 0.2f;
     private static final float WALLJUMP_SPEED = 9f, WALLJUMP_GRAV = 10f;
     private float coyoteTime, walljumpCoyoteTime;
     private boolean walljumpCoyoteDirection;
@@ -213,7 +213,7 @@ public class Character extends Entity {
                 else if (tileHitX(pos.x + pos.width + err) == Tile.SOLID)
                     facingLeft = true;
                 else {
-                    walljumpCoyoteTime = COYOTE_TIME;
+                    walljumpCoyoteTime = WJ_COYOTE_TIME;
                     walljumpCoyoteDirection = facingLeft;
                     this.animationTime = 1;
                     updateState(State.JUMP, xMov, yMov);
@@ -223,7 +223,7 @@ public class Character extends Entity {
                 // Fall off
                 if ((xMov < 0 && facingLeft) || (xMov > 0 && !facingLeft)) {
                     this.animationTime = 1;
-                    walljumpCoyoteTime = COYOTE_TIME;
+                    walljumpCoyoteTime = WJ_COYOTE_TIME;
                     walljumpCoyoteDirection = facingLeft;
                     updateState(State.JUMP, xMov, yMov);
                 }

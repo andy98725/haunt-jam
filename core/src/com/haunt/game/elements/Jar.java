@@ -37,10 +37,16 @@ public class Jar extends Entity {
 
     private static final float fadeTime = 0.1f;
 
+    private float alpha() {
+        return isReal ? 1 : 0.75f;
+    }
+
     @Override
     public void render(SpriteBatch sb) {
         if (animationTime < fadeTime && !exploding)
-            sb.setColor(new Color(1, 1, 1, animationTime / fadeTime));
+            sb.setColor(new Color(1, 1, 1, animationTime / fadeTime * alpha()));
+        else
+            sb.setColor(new Color(1, 1, 1, alpha()));
         super.render(sb);
         sb.setColor(Color.WHITE);
 
