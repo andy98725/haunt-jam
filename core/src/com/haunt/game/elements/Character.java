@@ -108,6 +108,7 @@ public class Character extends Entity {
                 // Jump
                 if (yMov > 0) {
                     vel.y = 12;// duplicated in coyote jump
+                    this.animationTime = 0;
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
@@ -137,21 +138,22 @@ public class Character extends Entity {
                 break;
 
             case JUMP:
-                velocityCap = new Vector2(8, -2);
+                velocityCap = new Vector2(8, -1);
                 boolean fullhop = yMov > 0 && vel.y > 0;
 
                 if (xMov * vel.x < 0) {
                     // vel.x = 0;
                     accel.x = 25f * xMov;
-                    accel.y = fullhop ? -16 : -22;
                 } else {
-                    accel = new Vector2(8 * xMov, fullhop ? -16 : -22);
+                    accel.x = 8 * xMov;
                 }
+                accel.y = fullhop ? -16 : -22;
 
                 if (coyoteTime > 0)
                     coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
                     vel.y = 10;
+                    this.animationTime = 0;
                     break;
                 }
 
@@ -159,9 +161,43 @@ public class Character extends Entity {
                     updateState(State.WALK, xMov, yMov);
                     break;
                 }
+                if (vel.x <= 0 && xMov <= 0 && tileHitX(pos.x - err) == Tile.SOLID) {
+                    updateState(State.WALLSLIDE, xMov, yMov);
+                    break;
+                }
+                if (vel.x >= 0 && xMov >= 0 && tileHitX(pos.x + pos.width + err) == Tile.SOLID) {
+                    updateState(State.WALLSLIDE, xMov, yMov);
+                    break;
+                }
 
                 break;
             case WALLSLIDE:
+                velocityCap = new Vector2(8, -1);
+                if (tileHitX(pos.x - err) == Tile.SOLID)
+                    facingLeft = false;
+                else if (tileHitX(pos.x + pos.width + err) == Tile.SOLID)
+                    facingLeft = true;
+                else {
+                    updateState(State.JUMP, xMov, yMov);
+                    break;
+                }
+                accel.y = -12;
+
+                // Fall off
+                if ((xMov < 0 && facingLeft) || (xMov > 0 && !facingLeft)) {
+                    this.animationTime = 1;
+                    updateState(State.JUMP, xMov, yMov);
+                }
+
+                // Walljump
+                if (yMov > 0 && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+                    vel.y = Math.max(8, vel.y);
+                    vel.x = 8 * (facingLeft ? -1 : 1);
+                    this.animationTime = 0;
+                    updateState(State.JUMP, xMov, yMov);
+                    break;
+                }
+
                 // TODO
                 break;
             case LOSE:
@@ -322,7 +358,7 @@ public class Character extends Entity {
 
         idleAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[1], 12));
         walkingAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[0], 6));
-        jumpingAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[3], 3));
+        jumpingAnim = new Animation<TextureRegion>(frameTime / 2, subregion(spritesheet[3], 3));
         fallingAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[4], 1));
         wallslideAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[2], 1));
         winAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[5], 25));
