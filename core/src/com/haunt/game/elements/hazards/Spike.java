@@ -10,8 +10,7 @@ public class Spike extends Hazard {
         animated = true;
     }
 
-    // TODO test
-    private static final Rectangle hitbox = new Rectangle(0, 0, 1, 0.25f);
+    private static final Rectangle hitbox = new Rectangle(0.1f, 0, 0.8f, 0.25f);
 
     @Override
     protected Rectangle shape() {

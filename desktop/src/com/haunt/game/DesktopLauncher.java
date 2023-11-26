@@ -8,7 +8,7 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setTitle("Haunted Jam");
+		config.setTitle("Make a Peanut Butter and Jelly Sandwich in the Haunted House Before Time Runs Out");
 		config.setWindowIcon("assets/environment/bg/vase.png");
 		config.setWindowedMode(1024, 768);
 		new Lwjgl3Application(new HauntGame(), config);
