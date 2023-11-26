@@ -18,6 +18,7 @@ public class Levels {
                 new LevelInfo("LevelVase.csv", 10, 5),
                 new LevelInfo("LevelSpike.csv", 5, 5),
                 new LevelInfo("LevelTowerSaws.csv", 5, 5),
+                new LevelInfo("LevelCircuit.csv", 10, 3),
                 new LevelInfo("LevelStar.csv", 10, 3),
                 new LevelInfo("LevelWeave.csv", 6, 3),
                 new LevelInfo("LevelSpikeRedux.csv", 5, 3),
@@ -31,6 +32,7 @@ public class Levels {
                 new LevelInfo("LevelTowerRedux.csv", 3, 3),
                 new LevelInfo("LevelDoubleBack.csv", 10, 3),
                 new LevelInfo("LevelInfinityRedux.csv", 10, 3),
+                
         };
         setLevel(0);
     }
