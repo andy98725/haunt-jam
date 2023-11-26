@@ -106,8 +106,7 @@ public class Character extends Entity {
 
                 // Jump
                 if (yMov > 0) {
-                    vel.y = 10;// duplicated in coyote jump
-                    this.animationTime = 0;
+                    vel.y = 12;// duplicated in coyote jump
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
@@ -151,8 +150,7 @@ public class Character extends Entity {
                 if (coyoteTime > 0)
                     coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
-                    this.animationTime = 0;
-                    vel.y = 9;
+                    vel.y = 10;
                     break;
                 }
 
