@@ -13,7 +13,7 @@ public class Levels {
 
     public Levels(HauntGame game) {
         this.game = game;
-        levels = new String[] { "Level1.csv", "Level2.csv", "Level3.csv", "Level4.csv" };
+        levels = new String[] { "Level1.csv", "Level2.csv", "Level3.csv", "Level4.csv", "Level5.csv" };
         setLevel(0);
     }
 
