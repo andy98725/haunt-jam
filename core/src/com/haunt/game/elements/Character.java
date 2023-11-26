@@ -179,7 +179,7 @@ public class Character extends Entity {
                 }
                 if (((vel.x < 0 && xMov == 0) || xMov < 0) && tileHitX(pos.x - err) == Tile.SOLID) {
                     vel.y *= 0.8;
-                    updateState(State.WALLSLIDE, xMov, yMov);
+                    updateState(State.WALLSLIDE, 0, yMov);
                     break;
                 }
                 if (((vel.x > 0 && xMov == 0) || xMov > 0) && tileHitX(pos.x + pos.width + err) == Tile.SOLID) {
@@ -225,7 +225,7 @@ public class Character extends Entity {
                     vel.y = Math.max(WALLJUMP_SPEED, vel.y);
                     vel.x = 8 * (facingLeft ? -1 : 1);
                     this.animationTime = 0;
-                    updateState(State.JUMP, xMov, yMov);
+                    updateState(State.JUMP, 0, yMov);
                     break;
                 }
                 break;
