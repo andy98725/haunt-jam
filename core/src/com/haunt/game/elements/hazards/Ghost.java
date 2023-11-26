@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.haunt.game.Level;
 import com.haunt.game.elements.Character;
 
 public class Ghost extends Hazard {
@@ -33,6 +34,13 @@ public class Ghost extends Hazard {
         this.animationTime = 0;
 
         updateLoc(follow.positions.get(0));
+    }
+
+    @Override
+    public boolean onCollision(Level l) {
+        if (animationTime < fadeTime)
+            return false;
+        return super.onCollision(l);
     }
 
     private static final Color transparent = new Color(1, 1, 1, 0.5f);
