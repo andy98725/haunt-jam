@@ -27,19 +27,20 @@ public class Level {
     public final List<Jar> goals = new ArrayList<Jar>();
     public final Entities entities = new Entities();
     public final Terrain terrain;
-    public final Timer timer = new Timer(15, 5);
+    public final Timer timer;
     private Camera cam;
 
     private Vector2 startLoc;
     private int goalIndex;
     private Vector2[] endLocs;
 
-    public Level(String filename, Levels levelMenu, int levelID) {
+    public Level(Levels.LevelInfo info, Levels levelMenu, int levelID) {
+        this.timer = new Timer(info.beginningTime, info.timeIncrement);
         this.levelMenu = levelMenu;
         this.levelID = levelID;
 
         character = new Character(this, timer);
-        String filedata = Gdx.files.local("assets/levels/" + filename).readString();
+        String filedata = Gdx.files.local("assets/levels/" + info.levelName).readString();
 
         String[] rows = filedata.split("\n");
         int cols = rows[0].split(",").length;
@@ -107,9 +108,9 @@ public class Level {
         }
 
         if (this.startLoc == null)
-            throw new RuntimeException("level " + filename + " has no start");
+            throw new RuntimeException("level " + info.levelName + " has no start");
         if (jarIDs.size() == 0)
-            throw new RuntimeException("level " + filename + " has no jars");
+            throw new RuntimeException("level " + info.levelName + " has no jars");
 
         Vector2[] jars = new Vector2[jarIDs.size()];
         for (int i = 0; i < jars.length; i++)

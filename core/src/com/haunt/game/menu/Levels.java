@@ -9,11 +9,18 @@ public class Levels {
 
     private final HauntGame game;
 
-    private final String[] levels;
+    private final LevelInfo[] levels;
 
     public Levels(HauntGame game) {
         this.game = game;
-        levels = new String[] { "Level1.csv", "Level2.csv", "LevelVase.csv", "LevelSpike.csv", "LevelPyramid.csv","LevelSpikeRedux.csv","LevelSawSilo.csv" };
+        levels = new LevelInfo[] { new LevelInfo("Level1.csv", 20, 0),
+                new LevelInfo("Level2.csv", 10, 5),
+                new LevelInfo("LevelVase.csv", 10, 5),
+                new LevelInfo("LevelSpike.csv", 10, 5),
+                new LevelInfo("LevelPyramid.csv", 10, 3),
+                new LevelInfo("LevelSpikeRedux.csv", 10, 3),
+                new LevelInfo("LevelSawSilo.csv", 10, 3),
+        };
         setLevel(0);
     }
 
@@ -45,5 +52,17 @@ public class Levels {
             setLevel(8);
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0))
             setLevel(9);
+    }
+
+    public static class LevelInfo {
+        public final String levelName;
+        public final float beginningTime, timeIncrement;
+
+        protected LevelInfo(String levelName, float beginningTime, float timeIncrement) {
+            this.levelName = levelName;
+            this.beginningTime = beginningTime;
+            this.timeIncrement = timeIncrement;
+
+        }
     }
 }
