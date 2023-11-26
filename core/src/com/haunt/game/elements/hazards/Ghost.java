@@ -1,19 +1,16 @@
-package com.haunt.game.elements;
+package com.haunt.game.elements.hazards;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.haunt.game.Level;
 import com.haunt.game.Util;
+import com.haunt.game.elements.Character;
 
-public class Ghost extends Element {
+public class Ghost extends Hazard {
 
-    private float timePassed, totTimePassed;
+    private float timePassed;
 
     private final Character follow;
 
@@ -21,18 +18,10 @@ public class Ghost extends Element {
 
     public Ghost(Character c) {
         this.follow = c;
+        this.animated = true;
+        this.removeOnDie = true;
 
         reset();
-    }
-
-    @Override
-    public boolean onCollision(Level l) {
-        if (!follow.invincible()) {
-            l.playerDies();
-            return true;
-        }
-
-        return false;
     }
 
     public boolean isMoving() {
@@ -42,7 +31,7 @@ public class Ghost extends Element {
     protected void reset() {
         curIndex = 0;
         timePassed = 0;
-        this.totTimePassed = Util.random.nextFloat();
+        this.animationTime = Util.random.nextFloat();
 
         updateLoc(follow.positions.get(0));
     }
@@ -59,9 +48,8 @@ public class Ghost extends Element {
 
     @Override
     public boolean update() {
-        totTimePassed += Gdx.graphics.getDeltaTime();
         if (!isMoving())
-            return false;
+            return super.update();
 
         timePassed += Gdx.graphics.getDeltaTime();
 
@@ -71,15 +59,15 @@ public class Ghost extends Element {
         }
         if (!isMoving()) {
             updateLoc(follow.positions.get(curIndex));
-            totTimePassed = 0;
-            return false;
+            return super.update();
         }
 
         Vector2 prevPos = follow.positions.get(curIndex), nextPos = follow.positions.get(curIndex + 1);
 
         updateLoc(prevPos.lerp(nextPos, timePassed / follow.times.get(curIndex)));
         this.facingLeft = follow.facing.get(curIndex);
-        return false;
+
+        return super.update();
     }
 
     public static final Rectangle shape = new Rectangle(-0.4f, 0, 0.8f, 1.6f);
@@ -97,25 +85,7 @@ public class Ghost extends Element {
 
     @Override
     protected String spriteLoc() {
-        throw new RuntimeException("done by Ghosts class");
+        return "assets/player/ghost.png";
     }
 
-    @Override
-    protected TextureRegion sprite() {
-        return ghostAnim.getKeyFrame(totTimePassed, true);
-    }
-
-    protected static Animation<TextureRegion> ghostAnim;
-
-    @Override
-    public void create() {
-        if (ghostAnim == null) {
-            TextureRegion[] ghostSprs = new TextureRegion(new Texture("assets/player/ghost.png")).split(64, 64)[0];
-            ghostAnim = new Animation<TextureRegion>(0.1f, ghostSprs);
-        }
-    }
-
-    @Override
-    public void dispose() {
-    }
 }

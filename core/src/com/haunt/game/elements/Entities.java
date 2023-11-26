@@ -7,24 +7,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Entities {
 
-    public final List<Element> entities = new ArrayList<Element>();
+    public final List<Entity> entities = new ArrayList<Entity>();
 
     public Entities() {
 
     }
 
-    public void add(Element e) {
+    public void add(Entity e) {
         e.create();
         entities.add(e);
     }
 
-    public void remove(Element e) {
+    public void remove(Entity e) {
         entities.remove(e);
         e.dispose();
     }
 
     public void render(SpriteBatch sb) {
-        for (Element g : entities)
+        for (Entity g : entities)
             g.render(sb);
     }
 
@@ -37,18 +37,23 @@ public class Entities {
     }
 
     public void create() {
-        for (Element g : entities)
+        for (Entity g : entities)
             g.create();
     }
 
     public void dispose() {
-        for (Element g : entities)
+        for (Entity g : entities)
             g.dispose();
     }
 
     public void clear() {
-        for (Element g : entities)
-            g.dispose();
-        entities.clear();
+        for (int i = 0; i < entities.size(); i++) {
+            if (!entities.get(i).removeOnDie)
+                continue;
+
+            entities.get(i).dispose();
+            entities.remove(i);
+            i--;
+        }
     }
 }

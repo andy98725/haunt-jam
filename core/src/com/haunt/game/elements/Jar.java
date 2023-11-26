@@ -1,16 +1,12 @@
 package com.haunt.game.elements;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
 import com.haunt.game.Tile;
 import com.haunt.game.Util;
 
-public class Jar extends Element {
+public class Jar extends Entity {
     public static final Rectangle shape = new Rectangle(0, 0, 1f, 1f);
     public static final Rectangle explodeShape = new Rectangle(-0.5f, -0.5f, 2f, 2f);
 
@@ -40,37 +36,27 @@ public class Jar extends Element {
         if (exploding)
             return false;
 
+        l.reachGoal(this);
+
         if (isReal)
             l.entities.remove(this);
         else
             exploding = true;
 
-        update();
+        this.animated = true;
+        updateSprite();
         updateLoc(loc);
-        l.reachGoal(this);
         return true;
     }
 
     @Override
     public boolean update() {
         if (!exploding)
-            return false;
+            return super.update();
 
-        explodingTimer += Gdx.graphics.getDeltaTime();
-        this.spr = explodingSpr().getKeyFrame(explodingTimer);
-        return explodingTimer > explodingSpr.getAnimationDuration();
-
-    }
-
-    private static Animation<TextureRegion> explodingSpr;
-
-    private static Animation<TextureRegion> explodingSpr() {
-        if (explodingSpr == null) {
-            TextureRegion[] explosionStrip = new TextureRegion(new Texture("assets/player/fakeExplode.png"))
-                    .split(64, 64)[0];
-            explodingSpr = new Animation<TextureRegion>(0.1f, explosionStrip);
-        }
-        return explodingSpr;
+        if (this.animationTime > this.animSpr.getAnimationDuration())
+            return true;
+        return super.update();
     }
 
     @Override
@@ -85,6 +71,7 @@ public class Jar extends Element {
 
     @Override
     protected String spriteLoc() {
-        return isReal ? "assets/player/goal.png" : "assets/player/fake.png";
+        return isReal ? "assets/player/goal.png"
+                : exploding ? "assets/player/fakeExplode.png" : "assets/player/fake.png";
     }
 }

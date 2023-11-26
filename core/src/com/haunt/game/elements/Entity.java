@@ -1,6 +1,8 @@
 package com.haunt.game.elements;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,8 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.HauntGame;
 import com.haunt.game.Level;
 
-public abstract class Element {
+public abstract class Entity {
     protected boolean facingLeft;
+    protected boolean animated;
+    protected float animationTime;
+    public boolean removeOnDie = true;
 
     protected abstract Rectangle shape();
 
@@ -17,8 +22,11 @@ public abstract class Element {
 
     protected abstract String spriteLoc();
 
-    // Returns should be removed
+    // Returns if should be removed
     public boolean update() {
+        if (animated)
+            animationTime += Gdx.graphics.getDeltaTime();
+
         return false;
     }
 
@@ -57,16 +65,37 @@ public abstract class Element {
     }
 
     protected TextureRegion spr;
+    protected Animation<TextureRegion> animSpr;
 
     protected TextureRegion sprite() {
+        if (animated)
+            return animSpr.getKeyFrame(animationTime, true);
+
         return spr;
     }
 
+    protected float frameTime = 0.1f;
+
     public void create() {
-        spr = new TextureRegion(new Texture(spriteLoc()));
+        if (!animated)
+            spr = new TextureRegion(new Texture(spriteLoc()));
+        else {
+            TextureRegion base = new TextureRegion(new Texture(spriteLoc()));
+            TextureRegion[] sprSheet = base.split(base.getRegionHeight(), base.getRegionHeight())[0];
+            animSpr = new Animation<TextureRegion>(0.1f, sprSheet);
+
+        }
     }
 
     public void dispose() {
-        spr.getTexture().dispose();
+        if (spr != null)
+            spr.getTexture().dispose();
+        if (animSpr != null)
+            animSpr.getKeyFrame(0).getTexture().dispose();
+    }
+
+    protected void updateSprite() {
+        dispose();
+        create();
     }
 }

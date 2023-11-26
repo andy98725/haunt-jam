@@ -14,7 +14,7 @@ import com.haunt.game.Level;
 import com.haunt.game.Tile;
 import com.haunt.game.ui.Timer;
 
-public class Character extends Element {
+public class Character extends Entity {
     public static final Rectangle shape = new Rectangle(-0.5f, 0, 1, 2);
     public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
@@ -219,8 +219,6 @@ public class Character extends Element {
             if (newY > pos.y)
                 return Tile.EMPTY;
 
-            Gdx.app.log("y1", ((int) pos.y + err) + "");
-            Gdx.app.log("y2", (int) newY + "");
             // Only block fallthrough on top
             if ((int) (pos.y + err) == (int) newY)
                 return Tile.EMPTY;

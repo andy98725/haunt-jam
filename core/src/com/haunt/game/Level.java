@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.elements.Character;
 import com.haunt.game.elements.Entities;
-import com.haunt.game.elements.Ghost;
 import com.haunt.game.elements.Jar;
+import com.haunt.game.elements.hazards.Ghost;
+import com.haunt.game.elements.hazards.Saw;
+import com.haunt.game.elements.hazards.Spike;
 import com.haunt.game.ui.Timer;
 
 public class Level {
@@ -57,6 +59,14 @@ public class Level {
                     continue;
 
                 switch (id) {
+                    case 3:
+                        tileData[i][j] = Tile.EMPTY;
+                        this.entities.add(new Saw(new Vector2(i, j)));
+                        break;
+                    case 4:
+                        tileData[i][j] = Tile.EMPTY;
+                        this.entities.add(new Spike(new Vector2(i, j)));
+                        break;
                     case 5:
                         tileData[i][j] = Tile.EMPTY;
                         this.startLoc = new Vector2(i, j);
