@@ -58,6 +58,7 @@ public class Jar extends Entity {
         else
             exploding = true;
 
+        this.animationTime = 0;
         this.animated = true;
         this.animationLoop = false;
         updateSprite();
