@@ -123,11 +123,11 @@ public class Character extends Entity {
                 // Instant stop on other press
                 if (xMov * vel.x < 0) {
                     // vel.x = 0;
-                    accel.x = 40f * xMov;
+                    accel.x = 50f * xMov;
                 } else if (xMov == 0) {
                     if (Math.abs(vel.x) < 0.5)
                         vel.x = 0;
-                    accel = new Vector2(-vel.x * 4, 0);
+                    accel = new Vector2(-vel.x * 8, 0);
                 } else {
                     accel = new Vector2(10f * xMov, 0);
                 }
@@ -142,7 +142,7 @@ public class Character extends Entity {
 
                 if (xMov * vel.x < 0) {
                     // vel.x = 0;
-                    accel.x = 20f * xMov;
+                    accel.x = 25f * xMov;
                     accel.y = fullhop ? -16 : -22;
                 } else {
                     accel = new Vector2(8 * xMov, fullhop ? -16 : -22);
