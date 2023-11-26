@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -159,6 +160,8 @@ public class Level {
     }
 
     public void update() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R))
+            restart();
 
         character.update();
         this.cam.position.set(character.loc.x, character.loc.y, 0);

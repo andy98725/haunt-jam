@@ -16,7 +16,7 @@ import com.haunt.game.Tile;
 import com.haunt.game.ui.Timer;
 
 public class Character extends Entity {
-    public static final Rectangle shape = new Rectangle(-0.5f, 0, 1, 2);
+    public static final Rectangle shape = new Rectangle(-0.4f, 0, 0.8f, 1.8f);
     public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
     private final Level level;
@@ -83,9 +83,9 @@ public class Character extends Entity {
         }
 
         // Delay state change until end of animations
-        if (state == State.LOSE && animationTime > 0.25f + loseAnim.getAnimationDuration())
+        if (state == State.LOSE && animationTime > 0.2f + loseAnim.getAnimationDuration())
             level.restart();
-        if (state == State.WIN && animationTime > 0.25f + winAnim.getAnimationDuration())
+        if (state == State.WIN && animationTime > 0.2f + winAnim.getAnimationDuration())
             level.nextLevel();
 
         return false;

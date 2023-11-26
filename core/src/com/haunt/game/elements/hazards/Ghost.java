@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.haunt.game.Util;
 import com.haunt.game.elements.Character;
 
 public class Ghost extends Hazard {
@@ -31,16 +30,21 @@ public class Ghost extends Hazard {
     protected void reset() {
         curIndex = 0;
         timePassed = 0;
-        this.animationTime = Util.random.nextFloat();
+        this.animationTime = 0;
 
         updateLoc(follow.positions.get(0));
     }
 
     private static final Color transparent = new Color(1, 1, 1, 0.5f);
 
+    private static final float fadeTime = 0.4f;
+
     @Override
     public void render(SpriteBatch sb) {
-        sb.setColor(transparent);
+        if (animationTime < fadeTime)
+            sb.setColor(transparent.cpy().mul(animationTime / fadeTime));
+        else
+            sb.setColor(transparent);
         super.render(sb);
         sb.setColor(Color.WHITE);
 
