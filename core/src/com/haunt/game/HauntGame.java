@@ -60,7 +60,6 @@ public class HauntGame extends ApplicationAdapter {
 			level.dispose();
 		level = l;
 		level.create();
-		win();
 	}
 
 	@Override
