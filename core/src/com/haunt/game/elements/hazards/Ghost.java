@@ -74,7 +74,7 @@ public class Ghost extends Hazard {
         return super.update();
     }
 
-    public static final Rectangle shape = new Rectangle(-0.4f, 0, 0.8f, 1.2f);
+    public static final Rectangle shape = new Rectangle(-0.4f, 0.2f, 0.8f, 1f);
     public static final Rectangle drawShape = new Rectangle(-1, 0, 2, 2);
 
     @Override

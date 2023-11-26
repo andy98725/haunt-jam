@@ -16,7 +16,7 @@ public class Timer {
 
     private final float timeSet;
     private final float timeIncrement;
-    private float timeLeft;
+    private float timeLeft, rawTime;
     public boolean timerStarted;
 
     public Timer(float initialTime, float increment) {
@@ -25,7 +25,12 @@ public class Timer {
         resetTimer();
     }
 
+    public void printTime(int levelNum) {
+        Gdx.app.log("Level " + (levelNum + 1), Float.toString(rawTime) + " seconds");
+    }
+
     public void resetTimer() {
+        this.rawTime = 0;
         timeLeft = timeSet;
         lastTick = (int) timeLeft;
         timerStarted = false;
@@ -46,6 +51,7 @@ public class Timer {
                 return false;
         }
 
+        rawTime += Gdx.graphics.getDeltaTime();
         timeLeft -= Gdx.graphics.getDeltaTime();
         if (lastTick != (int) timeLeft) {
             float minVolume = timeSet * 3 / 4, maxVolume = timeSet * 1 / 4;

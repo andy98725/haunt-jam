@@ -138,6 +138,7 @@ public class Level {
     }
 
     public void nextLevel() {
+        timer.printTime(levelID);
         levelMenu.setLevel(levelID + 1);
 
     }
