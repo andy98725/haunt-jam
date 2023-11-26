@@ -118,6 +118,8 @@ public class Timer {
     private String getText() {
         if (timeLeft >= 5)
             return Integer.toString((int) timeLeft);
+        if (timeLeft <= 0)
+            return "0";
         return Float.toString(timeLeft).substring(0, 3);
     }
 }

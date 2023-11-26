@@ -27,8 +27,7 @@ public abstract class Entity {
 
     // Returns if should be removed
     public boolean update() {
-        if (animated)
-            animationTime += Gdx.graphics.getDeltaTime();
+        animationTime += Gdx.graphics.getDeltaTime();
 
         return false;
     }

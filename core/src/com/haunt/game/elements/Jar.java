@@ -1,5 +1,7 @@
 package com.haunt.game.elements;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
@@ -12,7 +14,6 @@ public class Jar extends Entity {
 
     private final boolean isReal;
     private boolean exploding;
-    private float explodingTimer;
 
     // Random location
     public Jar(Level level) {
@@ -29,6 +30,20 @@ public class Jar extends Entity {
     public Jar(Vector2[] endLocs, int i) {
         isReal = i == endLocs.length - 1;
         updateLoc(endLocs[i]);
+
+        if (i == 0)
+            this.animationTime = fadeTime;
+    }
+
+    private static final float fadeTime = 0.1f;
+
+    @Override
+    public void render(SpriteBatch sb) {
+        if (animationTime < fadeTime && !exploding)
+            sb.setColor(new Color(1, 1, 1, animationTime / fadeTime));
+        super.render(sb);
+        sb.setColor(Color.WHITE);
+
     }
 
     @Override
