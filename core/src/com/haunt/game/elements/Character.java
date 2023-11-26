@@ -162,10 +162,12 @@ public class Character extends Entity {
                     break;
                 }
                 if (vel.x <= 0 && xMov <= 0 && tileHitX(pos.x - err) == Tile.SOLID) {
+                    vel.y *= 0.8;
                     updateState(State.WALLSLIDE, xMov, yMov);
                     break;
                 }
                 if (vel.x >= 0 && xMov >= 0 && tileHitX(pos.x + pos.width + err) == Tile.SOLID) {
+                    vel.y *= 0.8;
                     updateState(State.WALLSLIDE, xMov, yMov);
                     break;
                 }
@@ -173,6 +175,15 @@ public class Character extends Entity {
                 break;
             case WALLSLIDE:
                 velocityCap = new Vector2(8, -1);
+                accel.y = -10;
+
+                // Hit floor
+                if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
+                    updateState(State.WALK, xMov, yMov);
+                    break;
+                }
+
+                // Direction facing
                 if (tileHitX(pos.x - err) == Tile.SOLID)
                     facingLeft = false;
                 else if (tileHitX(pos.x + pos.width + err) == Tile.SOLID)
@@ -181,7 +192,6 @@ public class Character extends Entity {
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
-                accel.y = -12;
 
                 // Fall off
                 if ((xMov < 0 && facingLeft) || (xMov > 0 && !facingLeft)) {
