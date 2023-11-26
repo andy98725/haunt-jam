@@ -43,6 +43,9 @@ public class Levels {
     }
 
     public void input() {
+        if (!HauntGame.DEBUG)
+            return;
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))
             setLevel(0);
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2))
