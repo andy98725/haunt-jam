@@ -81,19 +81,22 @@ public class Level {
                     case 6:
                         tileData[i][j] = null;
                         break;
-                    case 10:
-                    case 11:
-                    case 12:
-                    case 13:
-                    case 14:
-                    case 15:
-                    case 16:
-                    case 17:
-                    case 18:
-                    case 19:
+                    case 100:
+                    case 101:
+                    case 102:
+                    case 103:
+                    case 104:
+                    case 105:
+                    case 106:
+                    case 107:
+                    case 108:
+                    case 109:
+                    case 110:
+                    case 111:
+                    case 112:
                         tileData[i][j] = Tile.EMPTY;
                         jarLocs.add(new Vector2(i, j));
-                        jarIDs.add(id - 10);
+                        jarIDs.add(id - 100);
                         break;
                     default:
                         throw new RuntimeException("Unidentified tile data: " + id);
