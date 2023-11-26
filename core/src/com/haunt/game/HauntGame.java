@@ -1,6 +1,8 @@
 package com.haunt.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -17,10 +19,17 @@ public class HauntGame extends ApplicationAdapter {
 	private Level level;
 	private Levels levelSelect;
 
+	private Music music;
+
 	@Override
 	public void create() {
 		levelSelect = new Levels(this);
 		batch = new SpriteBatch();
+
+		music = Gdx.audio.newMusic(Gdx.files.internal("assets/sound/chamber-of-secrets.wav"));
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();
 
 		if (DEBUG)
 			debugRenderer = new ShapeRenderer();

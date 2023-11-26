@@ -46,17 +46,22 @@ public class Character extends Entity {
         facing = new ArrayList<Boolean>();
     }
 
-    private float coyoteTime;
+    private static final float COYOTE_TIME = 0.12f;
+    private float coyoteTime, walljumpCoyoteTime;
+    private boolean walljumpCoyoteDirection;
 
     public boolean update() {
         super.update();
 
         int xMov = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
-        int yMov = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
-        if (xMov < 0)
-            facingLeft = true;
-        else if (xMov > 0)
-            facingLeft = false;
+        int yMov = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0);
+
+        if (state != State.WALLSLIDE) {
+            if (xMov < 0)
+                facingLeft = true;
+            else if (xMov > 0)
+                facingLeft = false;
+        }
 
         updateState(state, xMov, yMov);
 
@@ -115,7 +120,7 @@ public class Character extends Entity {
 
                 // Check falling
                 if (tileHitY(pos.y - err) == Tile.EMPTY) {
-                    coyoteTime = 0.12f;
+                    coyoteTime = COYOTE_TIME;
                     this.animationTime = 1;
                     updateState(State.JUMP, xMov, yMov);
                     break;
@@ -152,7 +157,18 @@ public class Character extends Entity {
                 if (coyoteTime > 0)
                     coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
+                    this.coyoteTime = 0;
                     vel.y = 10;
+                    this.animationTime = 0;
+                    break;
+                }
+                if (walljumpCoyoteTime > 0)
+                    walljumpCoyoteTime -= Gdx.graphics.getDeltaTime();
+                if (walljumpCoyoteTime > 0 && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+                    this.walljumpCoyoteTime = 0;
+
+                    vel.y = Math.max(8, vel.y);
+                    vel.x = 8 * (walljumpCoyoteDirection ? -1 : 1);
                     this.animationTime = 0;
                     break;
                 }
@@ -189,6 +205,9 @@ public class Character extends Entity {
                 else if (tileHitX(pos.x + pos.width + err) == Tile.SOLID)
                     facingLeft = true;
                 else {
+                    walljumpCoyoteTime = COYOTE_TIME;
+                    walljumpCoyoteDirection = facingLeft;
+                    this.animationTime = 1;
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
@@ -196,6 +215,8 @@ public class Character extends Entity {
                 // Fall off
                 if ((xMov < 0 && facingLeft) || (xMov > 0 && !facingLeft)) {
                     this.animationTime = 1;
+                    walljumpCoyoteTime = COYOTE_TIME;
+                    walljumpCoyoteDirection = facingLeft;
                     updateState(State.JUMP, xMov, yMov);
                 }
 
