@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.elements.Character;
 import com.haunt.game.elements.Entities;
@@ -167,7 +168,15 @@ public class Level {
             restart();
 
         character.update();
-        this.cam.position.set(character.loc.x, character.loc.y, 0);
+
+        float x = character.loc.x, y = character.loc.y;
+        if (terrain.mapWid() > cam.viewportWidth)
+            x = MathUtils.clamp(x, cam.viewportWidth / 2, terrain.mapWid() - cam.viewportWidth / 2);
+        if (terrain.mapHei() > cam.viewportHeight)
+            y = MathUtils.clamp(y, cam.viewportHeight / 2, terrain.mapHei() - cam.viewportHeight / 2);
+        else
+            y = Math.max(y, cam.viewportHeight / 2);
+        this.cam.position.set(x, y, 0);
         this.cam.update();
 
         if (isPaused)

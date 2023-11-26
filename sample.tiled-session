@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "editor/sampleLevel.tmx",
+    "activeFile": "editor/tiles.tsx",
     "expandedProjectPaths": [
         "editor",
         "."
@@ -14,8 +14,8 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 394,
-                "y": 443.99999999999994
+                "x": 392.66666666666663,
+                "y": 442.66666666666663
             }
         },
         "editor/tiles.tsx": {
@@ -48,8 +48,8 @@
     "project": "sample.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "editor/tiles.tsx",
         "editor/sampleLevel.tmx",
+        "editor/tiles.tsx",
         "sampleLevel.tmx",
         "tiles.tsx"
     ],
