@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.haunt.game.menu.Levels;
 
 public class HauntGame extends ApplicationAdapter {
 
@@ -14,19 +15,28 @@ public class HauntGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 
 	private Level level;
+	private Levels levelSelect;
 
 	@Override
 	public void create() {
+		levelSelect = new Levels(this);
 		batch = new SpriteBatch();
-		level = new Level("sampleLevel.csv");
-		level.create();
 
 		if (DEBUG)
 			debugRenderer = new ShapeRenderer();
 	}
 
+	public void setLevel(Level l) {
+		if (level != null)
+			level.dispose();
+		level = l;
+		level.create();
+	}
+
 	@Override
 	public void render() {
+		levelSelect.input();
+
 		level.update();
 		ScreenUtils.clear(0, 0, 0, 1);
 

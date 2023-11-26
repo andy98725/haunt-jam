@@ -90,11 +90,15 @@ public class Level {
                         break;
                     default:
                         throw new RuntimeException("Unidentified tile data: " + id);
-
                 }
 
             }
         }
+
+        if (this.startLoc == null)
+            throw new RuntimeException("level " + filename + " has no start");
+        if (jarIDs.size() == 0)
+            throw new RuntimeException("level " + filename + " has no jars");
 
         Vector2[] jars = new Vector2[jarIDs.size()];
         for (int i = 0; i < jars.length; i++)
