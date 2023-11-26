@@ -26,14 +26,13 @@ public class Levels {
                 new LevelInfo("LevelTowerFall.csv", 2, 2),
                 new LevelInfo("LevelWiggly.csv", 5, 3),
                 new LevelInfo("LevelTowerRedux.csv", 3, 3),
-
         };
         setLevel(0);
     }
 
     public void setLevel(int i) {
         if (i >= levels.length || i < 0)
-            Gdx.app.log("TODO", "main menu");
+            game.win();
         else
             game.setLevel(new Level(levels[i], this, i));
     }

@@ -3,7 +3,11 @@ package com.haunt.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -35,6 +39,22 @@ public class HauntGame extends ApplicationAdapter {
 			debugRenderer = new ShapeRenderer();
 	}
 
+	private TextureRegion winScreen = null;
+	private String winTime;
+	private float gameTime = 0;
+	private BitmapFont font;
+	private GlyphLayout txt;
+
+	public void win() {
+		winScreen = new TextureRegion(new Texture("assets/ui/win.png"));
+
+		winTime = Util.formatTime(gameTime);
+		font = new BitmapFont(Gdx.files.local("assets/ui/winFont.fnt"),
+				new TextureRegion(new Texture("assets/ui/winFont.png")));
+		txt = new GlyphLayout(font, winTime);
+
+	}
+
 	public void setLevel(Level l) {
 		if (level != null)
 			level.dispose();
@@ -44,6 +64,26 @@ public class HauntGame extends ApplicationAdapter {
 
 	@Override
 	public void render() {
+		if (winScreen != null) {
+			ScreenUtils.clear(0, 0, 0, 1);
+			batch.begin();
+			float wid = Math.min(Gdx.graphics.getWidth(),
+					Gdx.graphics.getHeight() * winScreen.getRegionWidth() / winScreen.getRegionHeight());
+			float hei = Math.min(Gdx.graphics.getHeight(),
+					Gdx.graphics.getWidth() * winScreen.getRegionHeight() / winScreen.getRegionWidth());
+			float x = Gdx.graphics.getWidth() / 2 - wid / 2;
+			float y = Gdx.graphics.getHeight() / 2 - hei / 2;
+			batch.draw(winScreen, x, y, wid,
+					hei);
+
+			float txtCX = x + wid * 0.725f;
+			float txtCY = y + hei * 0.9f;
+			font.draw(batch, winTime, txtCX - txt.width / 2, txtCY - txt.height / 2);
+			batch.end();
+			return;
+		}
+		gameTime += Gdx.graphics.getDeltaTime();
+
 		levelSelect.input();
 
 		level.update();
