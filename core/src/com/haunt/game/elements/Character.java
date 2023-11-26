@@ -60,7 +60,12 @@ public class Character extends Entity {
         updateState(state, xMov, yMov);
 
         // Done this way because of math
+        if (velocityCap.x >= 0)
+            vel.x = MathUtils.clamp(vel.x, -velocityCap.x, velocityCap.x);
+        if (velocityCap.y >= 0)
+            vel.y = MathUtils.clamp(vel.y, -velocityCap.y, velocityCap.y);
         applyVelocity(vel.x / 2, vel.y / 2);
+
         vel.x += accel.x * Gdx.graphics.getDeltaTime();
         vel.y += accel.y * Gdx.graphics.getDeltaTime();
         if (velocityCap.x >= 0)
@@ -97,7 +102,7 @@ public class Character extends Entity {
                     break;
                 }
 
-                // Check fallthrough
+                // Check falling
                 if (tileHitY(pos.y - err) == Tile.EMPTY) {
                     coyoteTime = 0.12f;
                     updateState(State.JUMP, xMov, yMov);
