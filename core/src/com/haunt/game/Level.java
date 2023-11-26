@@ -78,7 +78,7 @@ public class Level {
                         break;
                     case 5:
                         tileData[i][j] = Tile.EMPTY;
-                        this.startLoc = new Vector2(i, j);
+                        this.startLoc = new Vector2(i + 0.5f, j);
                         break;
                     case 6:
                         tileData[i][j] = null;
