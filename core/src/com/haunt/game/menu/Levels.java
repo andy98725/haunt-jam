@@ -9,27 +9,26 @@ public class Levels {
 
     private final HauntGame game;
 
-    private final Level[] levels;
+    private final String[] levels;
 
     public Levels(HauntGame game) {
         this.game = game;
-        levels = new Level[] {
-                new Level("Level1.csv"),
-                new Level("Level2.csv"),
-                new Level("Level3.csv"),
-                new Level("Level4.csv"),
-        };
-        this.game.setLevel(levels[0]);
+        levels = new String[] { "Level1.csv", "Level2.csv", "Level3.csv", "Level4.csv" };
+        setLevel(0);
+    }
+
+    private void setLevel(int i) {
+        game.setLevel(new Level(levels[i]));
     }
 
     public void input() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))
-            this.game.setLevel(levels[0]);
+            setLevel(0);
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2))
-            this.game.setLevel(levels[1]);
+            setLevel(1);
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3))
-            this.game.setLevel(levels[2]);
+            setLevel(2);
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4))
-            this.game.setLevel(levels[3]);
+            setLevel(3);
     }
 }

@@ -195,6 +195,8 @@ public class Level {
         character.create();
         entities.create();
         timer.create();
+
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void dispose() {
