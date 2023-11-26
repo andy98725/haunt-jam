@@ -128,21 +128,20 @@ public class Level {
     public boolean isPaused = false;
 
     public void reachGoal(Jar j) {
-
-        character.reachGoal();
-        timer.incrementTimer();
-        entities.add(new Ghost(character));
-
         goalIndex++;
-        if (goalIndex >= endLocs.length) {
-            Gdx.app.log("YOU WIN", "!!!");
-            // Random location
-            if (ENDLESS_MODE)
+        if (goalIndex >= endLocs.length && !ENDLESS_MODE) {
+            character.reachGoal(true);
+            isPaused = true;
+        } else {
+            character.reachGoal(false);
+            timer.incrementTimer();
+            entities.add(new Ghost(character));
+
+            if (goalIndex >= endLocs.length)
+                // Random location
                 entities.add(new Jar(this));
             else
-                isPaused = true;
-        } else {
-            entities.add(new Jar(endLocs, goalIndex));
+                entities.add(new Jar(endLocs, goalIndex));
         }
 
     }

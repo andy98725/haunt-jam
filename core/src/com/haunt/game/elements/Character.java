@@ -6,7 +6,10 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -26,10 +29,12 @@ public class Character extends Entity {
     public Character(Level level, Timer t) {
         this.level = level;
         this.t = t;
+        this.animated = true;
     }
 
     public enum State {
-        IDLE, WALK, JUMP, WALLSLIDE
+        IDLE, WALK, JUMP, WALLSLIDE,
+        WIN, LOSE
     }
 
     public void init(Vector2 startLoc) {
@@ -47,6 +52,8 @@ public class Character extends Entity {
     private float coyoteTime;
 
     public boolean update() {
+        super.update();
+
         if (iframes > 0)
             iframes -= Gdx.graphics.getDeltaTime();
 
@@ -88,8 +95,10 @@ public class Character extends Entity {
         switch (st) {
             case IDLE:
                 velocityCap = new Vector2(0, 0);
-                if (xMov != 0 || yMov != 0)
+                if (xMov != 0 || yMov != 0) {
+                    this.animationTime = 0;
                     updateState(State.WALK, xMov, yMov);
+                }
 
                 break;
             case WALK:
@@ -98,6 +107,7 @@ public class Character extends Entity {
                 // Jump
                 if (yMov > 0) {
                     vel.y = 10;// duplicated in coyote jump
+                    this.animationTime = 0;
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
@@ -105,6 +115,7 @@ public class Character extends Entity {
                 // Check falling
                 if (tileHitY(pos.y - err) == Tile.EMPTY) {
                     coyoteTime = 0.12f;
+                    this.animationTime = 1;
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
@@ -133,6 +144,7 @@ public class Character extends Entity {
                 if (coyoteTime > 0)
                     coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
+                    this.animationTime = 0;
                     vel.y = 9;
                     break;
                 }
@@ -247,11 +259,6 @@ public class Character extends Entity {
         return drawShape;
     }
 
-    @Override
-    protected String spriteLoc() {
-        return "assets/player/idle.png";
-    }
-
     private static Color invincibleCol = new Color(0.8f, 0.8f, 1, 1);
 
     @Override
@@ -263,11 +270,76 @@ public class Character extends Entity {
         // sb.setColor(Color.WHITE);
     }
 
-    public void reachGoal() {
+    public void reachGoal(boolean win) {
         this.iframes = 1;
+        if (win)
+            state = State.WIN;
     }
 
     public boolean invincible() {
         return iframes > 0;
+    }
+
+    @Override
+    protected TextureRegion sprite() {
+        switch (state) {
+            case IDLE:
+                return idleAnim.getKeyFrame(this.animationTime, true);
+            case WALK:
+                return walkingAnim.getKeyFrame(this.animationTime, true);
+            case JUMP:
+                if (vel.y > -6)
+                    return jumpingAnim.getKeyFrame(this.animationTime, false);
+                else
+                    return fallingAnim.getKeyFrame(this.animationTime, true);
+            case WALLSLIDE:
+                return wallslideAnim.getKeyFrame(this.animationTime, true);
+            case WIN:
+                return winAnim.getKeyFrame(this.animationTime, false);
+            case LOSE:
+                return loseAnim.getKeyFrame(this.animationTime, false);
+            default:
+                throw new RuntimeException("Unknown state " + state);
+
+        }
+
+    }
+
+    private Animation<TextureRegion> idleAnim, walkingAnim, jumpingAnim, fallingAnim, wallslideAnim, winAnim, loseAnim;
+
+    @Override
+    public void create() {
+        TextureRegion[][] spritesheet = new TextureRegion(new Texture("assets/player/anims.png")).split(64, 64);
+
+        idleAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[1], 12));
+        walkingAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[0], 6));
+        jumpingAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[3], 3));
+        fallingAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[4], 1));
+        wallslideAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[2], 1));
+        winAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[5], 25));
+        loseAnim = new Animation<TextureRegion>(frameTime, subregion(spritesheet[6], 16));
+    }
+
+    private TextureRegion[] subregion(TextureRegion[] strip, int size) {
+        TextureRegion[] ret = new TextureRegion[size];
+        for (int i = 0; i < ret.length; i++)
+            ret[i] = strip[i];
+        return ret;
+    }
+
+    @Override
+    public void dispose() {
+        idleAnim.getKeyFrame(0).getTexture().dispose();
+        walkingAnim.getKeyFrame(0).getTexture().dispose();
+        jumpingAnim.getKeyFrame(0).getTexture().dispose();
+        fallingAnim.getKeyFrame(0).getTexture().dispose();
+        wallslideAnim.getKeyFrame(0).getTexture().dispose();
+        winAnim.getKeyFrame(0).getTexture().dispose();
+        loseAnim.getKeyFrame(0).getTexture().dispose();
+    }
+
+    @Override
+    protected String spriteLoc() {
+        throw new RuntimeException("Unused");
     }
 }
