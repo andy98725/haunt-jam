@@ -13,24 +13,24 @@ public class Levels {
 
     public Levels(HauntGame game) {
         this.game = game;
-        levels = new LevelInfo[] { new LevelInfo("Level1.csv", 20, 0),
-                new LevelInfo("Level2.csv", 10, 5),
-                new LevelInfo("LevelVase.csv", 10, 5),
-                new LevelInfo("LevelSpike.csv", 5, 5),
-                new LevelInfo("LevelTowerSaws.csv", 5, 5),
-                new LevelInfo("LevelStar.csv", 10, 3),
-                new LevelInfo("LevelWeave.csv", 6, 3),
-                new LevelInfo("LevelSpikeRedux.csv", 5, 3),
-                new LevelInfo("LevelInfinity.csv", 4, 2),
-                new LevelInfo("LevelSawSilo.csv", 5, 3),
-                new LevelInfo("LevelPyramid.csv", 5, 3),
-                new LevelInfo("LevelTowerFall.csv", 2, 2),
-                new LevelInfo("LevelWeaveRedux.csv", 3, 2),
-                new LevelInfo("LevelWiggly.csv", 5, 3),
-                new LevelInfo("LevelCircle.csv", 10, 3),
-                new LevelInfo("LevelTowerRedux.csv", 3, 3),
+        levels = new LevelInfo[] { new LevelInfo("Level1.csv", 12, 0),
+                new LevelInfo("Level2.csv", 8, 5),
+                new LevelInfo("LevelVase.csv", 8, 2),
+                new LevelInfo("LevelSpike.csv", 6, 4),
+                new LevelInfo("LevelTowerSaws.csv", 8, 0),
+                new LevelInfo("LevelStar.csv", 10, 1),
+                new LevelInfo("LevelWeave.csv", 7, 3),
+                new LevelInfo("LevelSpikeRedux.csv", 6, 3),
+                new LevelInfo("LevelInfinity.csv", 4, 1),
+                new LevelInfo("LevelSawSilo.csv", 6, 3),
+                new LevelInfo("LevelPyramid.csv", 6, 3),
+                new LevelInfo("LevelTowerFall.csv", 3, 2),
+                new LevelInfo("LevelWeaveRedux.csv", 4, 2),
+                new LevelInfo("LevelWiggly.csv", 6, 3),
+                new LevelInfo("LevelCircle.csv", 8, 1),
+                new LevelInfo("LevelTowerRedux.csv", 5, 0),
                 new LevelInfo("LevelDoubleBack.csv", 10, 3),
-                new LevelInfo("LevelInfinityRedux.csv", 10, 3),
+                new LevelInfo("LevelInfinityRedux.csv", 8, 2),
         };
         setLevel(0);
     }
@@ -43,8 +43,8 @@ public class Levels {
     }
 
     public void input() {
-        if (!HauntGame.DEBUG)
-            return;
+        // if (!HauntGame.DEBUG)
+        // return;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))
             setLevel(0);

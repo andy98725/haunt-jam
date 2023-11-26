@@ -20,7 +20,7 @@ public class Timer {
     public boolean timerStarted;
 
     public Timer(float initialTime, float increment) {
-        this.timeSet = initialTime + 0.5f;
+        this.timeSet = initialTime + (initialTime > 5 ? 0.5f : 0);
         this.timeIncrement = increment;
         resetTimer();
     }
