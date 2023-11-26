@@ -123,11 +123,11 @@
             }
         },
         "editor/LevelVase.tmx": {
-            "scale": 0.65609375,
+            "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.876399142653,
-                "y": 320.07620862110025
+                "x": 444.66666666666663,
+                "y": 368
             }
         },
         "editor/LevelWeave.tmx": {
