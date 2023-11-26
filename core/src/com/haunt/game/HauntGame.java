@@ -60,21 +60,24 @@ public class HauntGame extends ApplicationAdapter {
 			level.dispose();
 		level = l;
 		level.create();
+		win();
 	}
 
 	@Override
 	public void render() {
 		if (winScreen != null) {
+			batch.setProjectionMatrix(
+					batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 			ScreenUtils.clear(0, 0, 0, 1);
-			batch.begin();
+
 			float wid = Math.min(Gdx.graphics.getWidth(),
 					Gdx.graphics.getHeight() * winScreen.getRegionWidth() / winScreen.getRegionHeight());
-			float hei = Math.min(Gdx.graphics.getHeight(),
-					Gdx.graphics.getWidth() * winScreen.getRegionHeight() / winScreen.getRegionWidth());
+			float hei = wid * winScreen.getRegionHeight() / winScreen.getRegionWidth();
 			float x = Gdx.graphics.getWidth() / 2 - wid / 2;
 			float y = Gdx.graphics.getHeight() / 2 - hei / 2;
-			batch.draw(winScreen, x, y, wid,
-					hei);
+
+			batch.begin();
+			batch.draw(winScreen, x, y, wid, hei);
 
 			float txtCX = x + wid * 0.725f;
 			float txtCY = y + hei * 0.9f;
