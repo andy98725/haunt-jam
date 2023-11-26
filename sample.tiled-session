@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "editor/sampleLevel.tmx",
+    "activeFile": "editor/tiles.tsx",
     "expandedProjectPaths": [
         ".",
         "editor"
@@ -14,8 +14,8 @@
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 400.66666666666663,
-                "y": 272
+                "x": 398,
+                "y": 455.99999999999994
             }
         },
         "editor/tiles.tsx": {
@@ -38,12 +38,11 @@
         }
     },
     "last.exportedFilePath": "C:/Shared/Projects/haunt-jam/assets/levels",
-    "last.imagePath": "C:/Shared/Projects/haunt-jam/assets/environment/bg",
+    "last.imagePath": "C:/Shared/Projects/haunt-jam/assets/environment",
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
-        "editor/tiles.tsx",
-        "editor/sampleLevel.tmx"
+        "editor/tiles.tsx"
     ],
     "project": "sample.tiled-project",
     "property.type": "int",
