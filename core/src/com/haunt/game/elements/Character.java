@@ -53,6 +53,10 @@ public class Character extends Entity {
 
     public boolean update() {
         super.update();
+        if (walljumpCoyoteTime > 0)
+            walljumpCoyoteTime -= Gdx.graphics.getDeltaTime();
+        if (coyoteTime > 0)
+            coyoteTime -= Gdx.graphics.getDeltaTime();
 
         int xMov = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
         int yMov = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0);
@@ -154,16 +158,12 @@ public class Character extends Entity {
                 }
                 accel.y = fullhop ? -16 : -22;
 
-                if (coyoteTime > 0)
-                    coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
                     this.coyoteTime = 0;
                     this.animationTime = 0;
                     vel.y = 10;
                     break;
                 }
-                if (walljumpCoyoteTime > 0)
-                    walljumpCoyoteTime -= Gdx.graphics.getDeltaTime();
                 if (walljumpCoyoteTime > 0 && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
                     this.walljumpCoyoteTime = 0;
                     this.animationTime = 0;
