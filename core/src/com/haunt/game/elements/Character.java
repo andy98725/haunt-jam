@@ -142,7 +142,7 @@ public class Character extends Entity {
                 } else {
                     accel = new Vector2(10f * xMov, 0);
                 }
-                if (xMov == 0 && yMov == 0 && vel.x == 0 && accel.x == 0)
+                if (xMov == 0 && yMov == 0 && Math.abs(vel.x) <= err && accel.x == 0)
                     updateState(State.IDLE, 0, 0);
 
                 break;
@@ -236,7 +236,7 @@ public class Character extends Entity {
                 if (Math.abs(vel.x) < 2)
                     vel.x = 0;
 
-                if (vel.x != 0 || vel.y != 0)
+                if (Math.abs(vel.x) > err || Math.abs(vel.y) > err)
                     this.animationTime = 0;
                 break;
             default:
@@ -255,7 +255,7 @@ public class Character extends Entity {
 
             if (hit == Tile.SOLID) {
                 float newMaxX = checkX - (checkX % 1);
-                xvel = Math.max(0, xvel + newMaxX - checkX);
+                xvel = Math.max(err, xvel + newMaxX - checkX);
                 this.vel.x = xvel;
             }
         } else if (xvel < 0) { // left
@@ -264,11 +264,12 @@ public class Character extends Entity {
 
             if (hit == Tile.SOLID) {
                 float newMinX = checkX + 1 - (checkX % 1);
-                xvel = Math.min(0, xvel + newMinX - checkX);
+                xvel = Math.min(-err, xvel + newMinX - checkX);
                 this.vel.x = xvel;
             }
         }
-        this.updateLoc(new Vector2(loc.x + xvel, loc.y));
+        if (xvel != err && xvel != -err)
+            this.updateLoc(new Vector2(loc.x + xvel, loc.y));
 
         // Vertical collision next
         if (yvel > 0) { // up
@@ -277,7 +278,7 @@ public class Character extends Entity {
 
             if (hit == Tile.SOLID) {
                 float newMaxY = checkY - (checkY % 1);
-                yvel = Math.max(0, yvel + newMaxY - checkY);
+                yvel = Math.max(err, yvel + newMaxY - checkY);
                 this.vel.y = yvel;
             }
         } else if (yvel < 0) { // down
@@ -286,11 +287,12 @@ public class Character extends Entity {
 
             if (hit == Tile.SOLID) {
                 float newMinY = checkY + 1 - (checkY % 1);
-                yvel = Math.min(0, yvel + newMinY - checkY);
+                yvel = Math.min(-err, yvel + newMinY - checkY);
                 this.vel.y = yvel; // Not done for collision checking reasons
             }
         }
-        this.updateLoc(new Vector2(loc.x, loc.y + yvel));
+        if (yvel != err && yvel != -err)
+            this.updateLoc(new Vector2(loc.x, loc.y + yvel));
     }
 
     private static final float err = 0.01f;
