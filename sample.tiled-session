@@ -10,12 +10,156 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "editor/Level1.tmx": {
+            "scale": 0.65609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.876399142653,
+                "y": 256.0609668968802
+            }
+        },
+        "editor/Level2.tmx": {
+            "scale": 0.8201171875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 384.7011193141224,
+                "y": 320.68587758990236
+            }
+        },
+        "editor/LevelCircle.tmx": {
+            "scale": 1.0359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 304.5550527903469,
+                "y": 304.07239819004525
+            }
+        },
+        "editor/LevelDoubleBack.tmx": {
+            "scale": 0.7029575892857142,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 448.81797253314284,
+                "y": 368.4432801460666
+            }
+        },
+        "editor/LevelInfinity.tmx": {
+            "scale": 0.9841406249999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.58426609510207,
+                "y": 176.80400095260777
+            }
+        },
+        "editor/LevelInfinityRedux.tmx": {
+            "scale": 0.65609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 572.3267444629673,
+                "y": 176.8040009526078
+            }
+        },
+        "editor/LevelPyramid.tmx": {
+            "scale": 0.6787176724137931,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 464.8471858378979,
+                "y": 272.57283480193695
+            }
+        },
+        "editor/LevelSawSilo.tmx": {
+            "scale": 1.1578125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 272.4966261808367,
+                "y": 256.51821862348186
+            }
+        },
+        "editor/LevelSpike.tmx": {
+            "scale": 0.7873125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.7303326188776,
+                "y": 240.05715646582522
+            }
+        },
+        "editor/LevelSpikeRedux.tmx": {
+            "scale": 0.7873125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.7303326188776,
+                "y": 240.05715646582522
+            }
+        },
+        "editor/LevelStar.tmx": {
+            "scale": 1.1578125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 272.4966261808367,
+                "y": 272.0647773279353
+            }
+        },
+        "editor/LevelTowerFall.tmx": {
+            "scale": 1.05390625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.56931060044474,
+                "y": 319.7627872498146
+            }
+        },
+        "editor/LevelTowerRedux.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 251.5,
+                "y": 297
+            }
+        },
+        "editor/LevelTowerSaws.tmx": {
+            "scale": 1.05390625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 128.56931060044474,
+                "y": 320.71163825055595
+            }
+        },
+        "editor/LevelVase.tmx": {
+            "scale": 0.65609375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480.876399142653,
+                "y": 320.07620862110025
+            }
+        },
+        "editor/LevelWeave.tmx": {
+            "scale": 0.8782552083333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 288.64047442550043,
+                "y": 384.8539659006672
+            }
+        },
+        "editor/LevelWeaveRedux.tmx": {
+            "scale": 0.8782552083333333,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 288.64047442550043,
+                "y": 384.8539659006672
+            }
+        },
+        "editor/LevelWiggly.tmx": {
+            "scale": 0.7873125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.7303326188776,
+                "y": 288.32261649599116
+            }
+        },
         "editor/sampleLevel.tmx": {
             "scale": 0.75,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 392.66666666666663,
-                "y": 442.66666666666663
+                "x": 384.66666666666663,
+                "y": 176
             }
         },
         "editor/tiles.tsx": {
