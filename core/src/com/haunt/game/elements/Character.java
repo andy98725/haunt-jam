@@ -47,6 +47,7 @@ public class Character extends Entity {
     }
 
     private static final float COYOTE_TIME = 0.12f;
+    private static final float WALLJUMP_SPEED = 9f, WALLJUMP_GRAV = 10f;
     private float coyoteTime, walljumpCoyoteTime;
     private boolean walljumpCoyoteDirection;
 
@@ -147,7 +148,6 @@ public class Character extends Entity {
                 boolean fullhop = yMov > 0 && vel.y > 0;
 
                 if (xMov * vel.x < 0) {
-                    // vel.x = 0;
                     accel.x = 25f * xMov;
                 } else {
                     accel.x = 8 * xMov;
@@ -158,18 +158,18 @@ public class Character extends Entity {
                     coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
                     this.coyoteTime = 0;
-                    vel.y = 10;
                     this.animationTime = 0;
+                    vel.y = 10;
                     break;
                 }
                 if (walljumpCoyoteTime > 0)
                     walljumpCoyoteTime -= Gdx.graphics.getDeltaTime();
                 if (walljumpCoyoteTime > 0 && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
                     this.walljumpCoyoteTime = 0;
-
-                    vel.y = Math.max(8, vel.y);
-                    vel.x = 8 * (walljumpCoyoteDirection ? -1 : 1);
                     this.animationTime = 0;
+
+                    vel.y = Math.max(WALLJUMP_SPEED, vel.y);
+                    vel.x = 8 * (walljumpCoyoteDirection ? -1 : 1);
                     break;
                 }
 
@@ -191,7 +191,7 @@ public class Character extends Entity {
                 break;
             case WALLSLIDE:
                 velocityCap = new Vector2(8, -1);
-                accel.y = -10;
+                accel.y = -WALLJUMP_GRAV;
 
                 // Hit floor
                 if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
@@ -222,14 +222,12 @@ public class Character extends Entity {
 
                 // Walljump
                 if (yMov > 0 && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-                    vel.y = Math.max(8, vel.y);
+                    vel.y = Math.max(WALLJUMP_SPEED, vel.y);
                     vel.x = 8 * (facingLeft ? -1 : 1);
                     this.animationTime = 0;
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
-
-                // TODO
                 break;
             case LOSE:
             case WIN:
