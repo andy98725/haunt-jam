@@ -14,8 +14,8 @@ public class Levels {
     public Levels(HauntGame game) {
         this.game = game;
         levels = new LevelInfo[] { new LevelInfo("Level1.csv", 12, 0),
-                new LevelInfo("LevelHell2.csv", 10, 3),
-                new LevelInfo("LevelHellRedux.csv", 10, 3),
+                new LevelInfo("LevelCross.csv", 5, 5),
+                new LevelInfo("LevelCrossRedux.csv", 5, 3),
                 new LevelInfo("Level2.csv", 8, 5),
                 new LevelInfo("LevelVase.csv", 8, 2),
                 new LevelInfo("LevelSpike.csv", 6, 4),
