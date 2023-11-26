@@ -9,7 +9,7 @@ public abstract class Hazard extends Entity {
     private static final Rectangle draw = new Rectangle(0, 0, 1, 1);
 
     public Hazard() {
-        this.removeOnDie = false;
+        this.removeOnRestart = false;
     }
 
     @Override
@@ -19,11 +19,7 @@ public abstract class Hazard extends Entity {
 
     @Override
     public boolean onCollision(Level l) {
-        if (!l.character.invincible()) {
-            l.playerDies();
-            return true;
-        }
-
-        return false;
+        l.playerDies();
+        return true;
     }
 }

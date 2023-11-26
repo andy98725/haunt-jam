@@ -44,6 +44,7 @@ public class Jar extends Entity {
             exploding = true;
 
         this.animated = true;
+        this.animationLoop = false;
         updateSprite();
         updateLoc(loc);
         return true;

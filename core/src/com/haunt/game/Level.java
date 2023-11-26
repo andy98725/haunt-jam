@@ -14,9 +14,12 @@ import com.haunt.game.elements.Jar;
 import com.haunt.game.elements.hazards.Ghost;
 import com.haunt.game.elements.hazards.Saw;
 import com.haunt.game.elements.hazards.Spike;
+import com.haunt.game.menu.Levels;
 import com.haunt.game.ui.Timer;
 
 public class Level {
+    private final Levels levelMenu;
+    public final int levelID;
 
     public final Character character;
     public final List<Jar> goals = new ArrayList<Jar>();
@@ -29,7 +32,10 @@ public class Level {
     private int goalIndex;
     private Vector2[] endLocs;
 
-    public Level(String filename) {
+    public Level(String filename, Levels levelMenu, int levelID) {
+        this.levelMenu = levelMenu;
+        this.levelID = levelID;
+
         character = new Character(this, timer);
         String filedata = Gdx.files.local("assets/levels/" + filename).readString();
 
@@ -107,21 +113,26 @@ public class Level {
         this.endLocs = jars;
         this.terrain = new Terrain(tileData);
 
-        reset();
+        restart();
     }
 
     public void playerDies() {
-        Gdx.app.log("YOU LOSE", ":(");
-        reset();
+        character.die();
+        isPaused = true;
     }
 
-    private void reset() {
+    public void restart() {
         goalIndex = 0;
 
         character.init(startLoc);
         entities.clear();
         entities.add(new Jar(endLocs, 0));
         timer.resetTimer();
+    }
+
+    public void nextLevel() {
+        levelMenu.setLevel(levelID + 1);
+
     }
 
     private static final boolean ENDLESS_MODE = false;
@@ -147,12 +158,13 @@ public class Level {
     }
 
     public void update() {
-        if (isPaused)
-            return;
 
         character.update();
         this.cam.position.set(character.loc.x, character.loc.y, 0);
         this.cam.update();
+
+        if (isPaused)
+            return;
 
         entities.update();
 

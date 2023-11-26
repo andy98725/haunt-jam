@@ -48,7 +48,7 @@ public class Entities {
 
     public void clear() {
         for (int i = 0; i < entities.size(); i++) {
-            if (!entities.get(i).removeOnDie)
+            if (!entities.get(i).removeOnRestart)
                 continue;
 
             entities.get(i).dispose();

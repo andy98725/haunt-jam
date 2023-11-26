@@ -12,9 +12,12 @@ import com.haunt.game.Level;
 
 public abstract class Entity {
     protected boolean facingLeft;
+
     protected boolean animated;
     protected float animationTime;
-    public boolean removeOnDie = true;
+    protected boolean animationLoop = true;
+
+    public boolean removeOnRestart = true;
 
     protected abstract Rectangle shape();
 
@@ -53,6 +56,7 @@ public abstract class Entity {
     }
 
     public void render(SpriteBatch sb) {
+
         if (facingLeft)
             sb.draw(sprite(), (drawPos.x + drawPos.width), drawPos.y,
                     -drawPos.width, drawPos.height);
@@ -69,7 +73,7 @@ public abstract class Entity {
 
     protected TextureRegion sprite() {
         if (animated)
-            return animSpr.getKeyFrame(animationTime, true);
+            return animSpr.getKeyFrame(animationTime, animationLoop);
 
         return spr;
     }

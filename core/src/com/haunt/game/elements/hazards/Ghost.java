@@ -19,7 +19,7 @@ public class Ghost extends Hazard {
     public Ghost(Character c) {
         this.follow = c;
         this.animated = true;
-        this.removeOnDie = true;
+        this.removeOnRestart = true;
 
         reset();
     }

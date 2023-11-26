@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -48,14 +47,10 @@ public class Character extends Entity {
         facing = new ArrayList<Boolean>();
     }
 
-    private float iframes;
     private float coyoteTime;
 
     public boolean update() {
         super.update();
-
-        if (iframes > 0)
-            iframes -= Gdx.graphics.getDeltaTime();
 
         int xMov = (Gdx.input.isKeyPressed(Input.Keys.A) ? -1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.D) ? 1 : 0);
         int yMov = (Gdx.input.isKeyPressed(Input.Keys.W) ? 1 : 0) + (Gdx.input.isKeyPressed(Input.Keys.S) ? -1 : 0);
@@ -158,6 +153,18 @@ public class Character extends Entity {
             case WALLSLIDE:
                 // TODO
                 break;
+            case LOSE:
+            case WIN:
+                velocityCap = new Vector2(-1, -1);
+                this.accel = new Vector2(-vel.x * 32, -64);
+                if (Math.abs(vel.x) < 2)
+                    vel.x = 0;
+
+                if (vel.x != 0 || vel.y != 0)
+                    this.animationTime = 0;
+                break;
+            default:
+                break;
         }
     }
 
@@ -259,25 +266,26 @@ public class Character extends Entity {
         return drawShape;
     }
 
-    private static Color invincibleCol = new Color(0.8f, 0.8f, 1, 1);
-
     @Override
     public void render(SpriteBatch sb) {
-        // if (invincible())
-        // sb.setColor(invincibleCol);
         super.render(sb);
-        // if (invincible())
-        // sb.setColor(Color.WHITE);
+
+        if (state == State.LOSE && animationTime > loseAnim.getAnimationDuration())
+            level.restart();
+        if (state == State.WIN && animationTime > loseAnim.getAnimationDuration())
+            level.nextLevel();
     }
 
     public void reachGoal(boolean win) {
-        this.iframes = 1;
-        if (win)
+        if (win) {
             state = State.WIN;
+            this.animationTime = 0;
+        }
     }
 
-    public boolean invincible() {
-        return iframes > 0;
+    public void die() {
+        state = State.LOSE;
+        this.animationTime = 0;
     }
 
     @Override

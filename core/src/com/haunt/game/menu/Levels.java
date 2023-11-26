@@ -17,8 +17,11 @@ public class Levels {
         setLevel(0);
     }
 
-    private void setLevel(int i) {
-        game.setLevel(new Level(levels[i]));
+    public void setLevel(int i) {
+        if (i >= levels.length || i < 0)
+            Gdx.app.log("TODO", "main menu");
+        else
+            game.setLevel(new Level(levels[i], this, i));
     }
 
     public void input() {
@@ -30,5 +33,17 @@ public class Levels {
             setLevel(2);
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4))
             setLevel(3);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5))
+            setLevel(4);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6))
+            setLevel(5);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_7))
+            setLevel(6);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8))
+            setLevel(7);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9))
+            setLevel(8);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0))
+            setLevel(9);
     }
 }
