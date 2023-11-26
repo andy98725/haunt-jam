@@ -97,12 +97,11 @@ public class Character extends Entity {
 
                 break;
             case WALK:
-                velocityCap = new Vector2(4, 0);
+                velocityCap = new Vector2(8, 0);
 
                 // Jump
                 if (yMov > 0) {
-                    vel.y = 10;// duplicated in coyote jump
-                    this.animationTime = 0;
+                    vel.y = 12;// duplicated in coyote jump
                     updateState(State.JUMP, xMov, yMov);
                     break;
                 }
@@ -117,14 +116,14 @@ public class Character extends Entity {
 
                 // Instant stop on other press
                 if (xMov * vel.x < 0) {
-                    vel.x = 0;
-                    accel.x = 0;
+                    // vel.x = 0;
+                    accel.x = 40f * xMov;
                 } else if (xMov == 0) {
                     if (Math.abs(vel.x) < 0.5)
                         vel.x = 0;
-                    accel = new Vector2(-vel.x * 12, 0);
+                    accel = new Vector2(-vel.x * 4, 0);
                 } else {
-                    accel = new Vector2(24f * xMov, 0);
+                    accel = new Vector2(10f * xMov, 0);
                 }
                 if (xMov == 0 && yMov == 0 && vel.x == 0 && accel.x == 0)
                     updateState(State.IDLE, 0, 0);
@@ -132,15 +131,21 @@ public class Character extends Entity {
                 break;
 
             case JUMP:
-                velocityCap = new Vector2(4, -1);
+                velocityCap = new Vector2(8, -2);
                 boolean fullhop = yMov > 0 && vel.y > 0;
-                accel = new Vector2(16 * xMov, fullhop ? -16 : -24);
+
+                if (xMov * vel.x < 0) {
+                    // vel.x = 0;
+                    accel.x = 20f * xMov;
+                    accel.y = fullhop ? -16 : -22;
+                } else {
+                    accel = new Vector2(8 * xMov, fullhop ? -16 : -22);
+                }
 
                 if (coyoteTime > 0)
                     coyoteTime -= Gdx.graphics.getDeltaTime();
                 if (coyoteTime > 0 && yMov > 0) {
-                    this.animationTime = 0;
-                    vel.y = 9;
+                    vel.y = 10;
                     break;
                 }
 
