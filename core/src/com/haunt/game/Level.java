@@ -71,19 +71,19 @@ public class Level {
 
                 switch (id) {
                     case 3:
-                        tileData[i][j] = Tile.EMPTY;
+                        tileData[i][j] = Tile.MATCH;
                         this.entities.add(new Saw(new Vector2(i, j)));
                         break;
                     case 4:
-                        tileData[i][j] = Tile.EMPTY;
+                        tileData[i][j] = Tile.MATCH;
                         this.entities.add(new Spike(new Vector2(i, j)));
                         break;
                     case 5:
-                        tileData[i][j] = Tile.EMPTY;
+                        tileData[i][j] = Tile.MATCH;
                         this.startLoc = new Vector2(i + 0.5f, j);
                         break;
                     case 6:
-                        tileData[i][j] = null;
+                        // tileData[i][j] = null;
                         break;
                     case 100:
                     case 101:
@@ -98,7 +98,7 @@ public class Level {
                     case 110:
                     case 111:
                     case 112:
-                        tileData[i][j] = Tile.EMPTY;
+                        tileData[i][j] = Tile.MATCH;
                         jarLocs.add(new Vector2(i, j));
                         jarIDs.add(id - 100);
                         break;

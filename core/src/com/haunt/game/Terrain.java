@@ -14,6 +14,24 @@ public class Terrain {
 
     public Terrain(Tile[][] map) {
         this.levelMap = map;
+
+        for (int i = 0; i < map.length; i++)
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] == Tile.MATCH) {
+                    if (i == 0 || j == 0 || i == map.length - 1 || j == map[i].length - 1)
+                        map[i][j] = null;
+                    else if (map[i - 1][j] == null || map[i - 1][j] == Tile.EMPTY)
+                        map[i][j] = map[i - 1][j];
+                    else if (map[i + 1][j] == null || map[i + 1][j] == Tile.EMPTY)
+                        map[i][j] = map[i + 1][j];
+                    else if (map[i][j - 1] == null || map[i][j - 1] == Tile.EMPTY)
+                        map[i][j] = map[i][j - 1];
+                    else if (map[i][j + 1] == null || map[i][j + 1] == Tile.EMPTY)
+                        map[i][j] = map[i][j + 1];
+                    else
+                        map[i][j] = null;
+                }
+            }
     }
 
     public void render(SpriteBatch sb, Camera cam) {
@@ -71,7 +89,7 @@ public class Terrain {
 
     private TextureRegion bgSprite(float x, float y) {
         Tile t = tileAt(x, y);
-        if (t == t.bgTile())
+        if (t == t.bgTile() || t == null)
             return null;
         return spr.get(t.bgTile())[0][0];
 

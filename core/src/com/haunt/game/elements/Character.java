@@ -48,13 +48,17 @@ public class Character extends Entity {
 
     private static final float COYOTE_TIME = 0.12f, WJ_COYOTE_TIME = 0.2f;
     private static final float WALLJUMP_SPEED = 9f, WALLJUMP_GRAV = 10f;
-    private float coyoteTime, walljumpCoyoteTime;
+    private float coyoteTime, walljumpCoyoteTime, preWalljumpCoyoteTime;
     private boolean walljumpCoyoteDirection;
 
     public boolean update() {
         super.update();
         if (walljumpCoyoteTime > 0)
             walljumpCoyoteTime -= Gdx.graphics.getDeltaTime();
+        if (preWalljumpCoyoteTime > 0)
+            preWalljumpCoyoteTime -= Gdx.graphics.getDeltaTime();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W))
+            preWalljumpCoyoteTime = 0.12f;
         if (coyoteTime > 0)
             coyoteTime -= Gdx.graphics.getDeltaTime();
 
@@ -97,6 +101,8 @@ public class Character extends Entity {
             level.restart(true);
         if (state == State.WIN && animationTime > 0.2f + winAnim.getAnimationDuration())
             level.nextLevel();
+        if (pos.y < -4)
+            level.restart(true);
 
         return false;
     }
@@ -127,6 +133,7 @@ public class Character extends Entity {
                 if (yMov > 0) {
                     vel.y = 12;// duplicated in coyote jump
                     this.animationTime = 0;
+                    this.preWalljumpCoyoteTime = 0;
                     updateState(State.JUMP, xMov, 0);
                     break;
                 }
@@ -229,7 +236,7 @@ public class Character extends Entity {
                 }
 
                 // Walljump
-                if (yMov > 0 && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+                if (yMov > 0 && preWalljumpCoyoteTime > 0) {
                     vel.y = Math.max(WALLJUMP_SPEED, vel.y);
                     vel.x = 8 * (facingLeft ? -1 : 1);
                     this.animationTime = 0;
@@ -364,6 +371,8 @@ public class Character extends Entity {
         this.animationTime = 0;
     }
 
+    private Animation<TextureRegion> idleAnim, walkingAnim, jumpingAnim, fallingAnim, wallslideAnim, winAnim, loseAnim;
+
     @Override
     protected TextureRegion sprite() {
         switch (state) {
@@ -388,8 +397,6 @@ public class Character extends Entity {
         }
 
     }
-
-    private Animation<TextureRegion> idleAnim, walkingAnim, jumpingAnim, fallingAnim, wallslideAnim, winAnim, loseAnim;
 
     @Override
     public void create() {
@@ -423,7 +430,7 @@ public class Character extends Entity {
     }
 
     @Override
-    protected String spriteLoc() {
+    protected TextureRegion spr() {
         throw new RuntimeException("Unused");
     }
 }

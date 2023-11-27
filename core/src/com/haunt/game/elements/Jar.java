@@ -1,7 +1,9 @@
 package com.haunt.game.elements;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
@@ -92,9 +94,29 @@ public class Jar extends Entity {
         return exploding ? explodeShape : shape;
     }
 
+    private static TextureRegion jam, sham, shamExplode;
+
+    private static TextureRegion jam() {
+        if (jam == null)
+            jam = new TextureRegion(new Texture("assets/player/goal.png"));
+        return jam;
+    }
+
+    private static TextureRegion sham() {
+        if (sham == null)
+            sham = new TextureRegion(new Texture("assets/player/fake.png"));
+        return sham;
+    }
+
+    private static TextureRegion shamExplode() {
+        if (shamExplode == null)
+            shamExplode = new TextureRegion(new Texture("assets/player/fake.png"));
+        return shamExplode;
+    }
+
     @Override
-    protected String spriteLoc() {
-        return isReal ? "assets/player/goal.png"
-                : exploding ? "assets/player/fakeExplode.png" : "assets/player/fake.png";
+    protected TextureRegion spr() {
+        return isReal ? jam()
+                : exploding ? shamExplode() : sham();
     }
 }

@@ -2,7 +2,9 @@ package com.haunt.game.elements.hazards;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.Level;
@@ -95,9 +97,17 @@ public class Ghost extends Hazard {
         return drawShape;
     }
 
+    private static TextureRegion ghost;
+
+    private static TextureRegion ghost() {
+        if (ghost == null)
+            ghost = new TextureRegion(new Texture("assets/player/ghost.png"));
+        return ghost;
+    }
+
     @Override
-    protected String spriteLoc() {
-        return "assets/player/ghost.png";
+    protected TextureRegion spr() {
+        return ghost();
     }
 
 }

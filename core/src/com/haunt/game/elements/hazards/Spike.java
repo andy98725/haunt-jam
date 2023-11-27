@@ -1,5 +1,7 @@
 package com.haunt.game.elements.hazards;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,9 +19,17 @@ public class Spike extends Hazard {
         return hitbox;
     }
 
+    private static TextureRegion tex;
+
+    private static TextureRegion tex() {
+        if (tex == null)
+            tex = new TextureRegion(new Texture("assets/environment/spikes.png"));
+        return tex;
+    }
+
     @Override
-    protected String spriteLoc() {
-        return "assets/environment/spikes.png";
+    protected TextureRegion spr() {
+        return tex();
     }
 
 }
