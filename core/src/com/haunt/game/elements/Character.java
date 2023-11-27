@@ -94,7 +94,7 @@ public class Character extends Entity {
 
         // Delay state change until end of animations
         if (state == State.LOSE && animationTime > 0.2f + loseAnim.getAnimationDuration())
-            level.restart();
+            level.restart(true);
         if (state == State.WIN && animationTime > 0.2f + winAnim.getAnimationDuration())
             level.nextLevel();
 

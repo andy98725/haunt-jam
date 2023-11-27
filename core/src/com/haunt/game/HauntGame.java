@@ -3,6 +3,7 @@ package com.haunt.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -40,19 +41,21 @@ public class HauntGame extends ApplicationAdapter {
 	}
 
 	private TextureRegion winScreen = null;
-	private String winTime;
+	private String winTime, winDeaths;
 	private float gameTime = 0;
+	public int gameDeaths = 0;
 	private BitmapFont font;
-	private GlyphLayout txt;
+	private GlyphLayout timeTxt, deathTxt;
 
 	public void win() {
 		winScreen = new TextureRegion(new Texture("assets/ui/win.png"));
-
-		winTime = Util.formatTime(gameTime);
 		font = new BitmapFont(Gdx.files.local("assets/ui/winFont.fnt"),
 				new TextureRegion(new Texture("assets/ui/winFont.png")));
-		txt = new GlyphLayout(font, winTime);
 
+		winTime = Util.formatTime(gameTime);
+		timeTxt = new GlyphLayout(font, winTime);
+		winDeaths = Integer.toString(gameDeaths) + " death" + (gameDeaths != 1 ? "s" : "");
+		deathTxt = new GlyphLayout(font, winDeaths);
 	}
 
 	public void setLevel(Level l) {
@@ -80,7 +83,11 @@ public class HauntGame extends ApplicationAdapter {
 
 			float txtCX = x + wid * 0.725f;
 			float txtCY = y + hei * 0.9f;
-			font.draw(batch, winTime, txtCX - txt.width / 2, txtCY - txt.height / 2);
+			float txt2CY = y + hei * 0.8f;
+			font.setColor(Color.GREEN);
+			font.draw(batch, winTime, txtCX - timeTxt.width / 2, txtCY - timeTxt.height / 2);
+			font.setColor(gameDeaths == 0 ? Color.YELLOW : Color.RED);
+			font.draw(batch, winDeaths, txtCX - deathTxt.width / 2, txt2CY - timeTxt.height / 2);
 			batch.end();
 			return;
 		}

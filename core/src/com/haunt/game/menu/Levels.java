@@ -45,7 +45,7 @@ public class Levels {
         if (i >= levels.length || i < 0)
             game.win();
         else
-            game.setLevel(new Level(levels[i], this, i));
+            game.setLevel(new Level(levels[i], i, game, this));
     }
 
     public void input() {

@@ -21,6 +21,7 @@ import com.haunt.game.ui.Timer;
 
 public class Level {
     private final Levels levelMenu;
+    private final HauntGame game;
     public final int levelID;
 
     public final Character character;
@@ -34,7 +35,8 @@ public class Level {
     private int goalIndex;
     private Vector2[] endLocs;
 
-    public Level(Levels.LevelInfo info, Levels levelMenu, int levelID) {
+    public Level(Levels.LevelInfo info, int levelID, HauntGame game, Levels levelMenu) {
+        this.game = game;
         this.timer = new Timer(info.beginningTime, info.timeIncrement);
         this.levelMenu = levelMenu;
         this.levelID = levelID;
@@ -119,7 +121,7 @@ public class Level {
         this.endLocs = jars;
         this.terrain = new Terrain(tileData);
 
-        restart();
+        restart(false);
     }
 
     public void playerDies() {
@@ -127,7 +129,10 @@ public class Level {
         isPaused = true;
     }
 
-    public void restart() {
+    public void restart(boolean addDeath) {
+        if (addDeath)
+            game.gameDeaths++;
+
         goalIndex = 0;
         isPaused = false;
 
@@ -167,7 +172,7 @@ public class Level {
 
     public void update() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.R))
-            restart();
+            restart(true);
 
         character.update();
 
