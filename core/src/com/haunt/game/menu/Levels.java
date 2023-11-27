@@ -15,6 +15,8 @@ public class Levels {
         this.game = game;
         levels = new LevelInfo[] { new LevelInfo("Level1.csv", 12, 0),
                 new LevelInfo("Level2.csv", 8, 5),
+                new LevelInfo("LevelLabrynth.csv", 8, 5),
+                new LevelInfo("LevelLabrynth2.csv", 8, 5),
                 new LevelInfo("LevelVase.csv", 8, 2),
                 new LevelInfo("LevelSpike.csv", 6, 4),
                 new LevelInfo("LevelTowerSaws.csv", 8, 0),
@@ -29,7 +31,7 @@ public class Levels {
                 new LevelInfo("LevelTowerFall.csv", 3, 2),
                 new LevelInfo("LevelWiggly.csv", 6, 3),
                 new LevelInfo("LevelWeaveRedux.csv", 4, 2.5f),
-                new LevelInfo("LevelCircle.csv", 8, 1),
+                new LevelInfo("LevelCircle.csv", 5, 2),
                 new LevelInfo("LevelTowerRedux.csv", 5, 0),
                 new LevelInfo("LevelDoubleBack.csv", 10, 3),
                 new LevelInfo("LevelInfinityRedux.csv", 8, 2),
@@ -46,8 +48,8 @@ public class Levels {
     }
 
     public void input() {
-        if (!HauntGame.DEBUG)
-            return;
+        // if (!HauntGame.DEBUG)
+        // return;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))
             setLevel(0);
