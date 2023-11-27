@@ -127,7 +127,7 @@ public class Character extends Entity {
                 if (yMov > 0) {
                     vel.y = 12;// duplicated in coyote jump
                     this.animationTime = 0;
-                    updateState(State.JUMP, xMov, yMov);
+                    updateState(State.JUMP, xMov, 0);
                     break;
                 }
 
@@ -146,9 +146,9 @@ public class Character extends Entity {
                 } else if (xMov == 0) {
                     if (Math.abs(vel.x) < 0.5)
                         vel.x = 0;
-                    accel = new Vector2(-vel.x * 8, 0);
+                    accel = new Vector2(-vel.x * 12, 0);
                 } else {
-                    accel = new Vector2(10f * xMov, 0);
+                    accel = new Vector2(12f * xMov, 0);
                 }
                 if (xMov == 0 && yMov == 0 && Math.abs(vel.x) <= err && accel.x == 0)
                     updateState(State.IDLE, 0, 0);
@@ -164,7 +164,7 @@ public class Character extends Entity {
                 } else {
                     accel.x = 8 * xMov;
                 }
-                accel.y = fullhop ? -16 : -22;
+                accel.y = fullhop ? -16 : -24;
 
                 if (coyoteTime > 0 && yMov > 0) {
                     this.coyoteTime = 0;
