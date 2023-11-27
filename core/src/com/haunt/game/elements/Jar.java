@@ -110,7 +110,7 @@ public class Jar extends Entity {
 
     private static TextureRegion shamExplode() {
         if (shamExplode == null)
-            shamExplode = new TextureRegion(new Texture("assets/player/fake.png"));
+            shamExplode = new TextureRegion(new Texture("assets/player/fakeExplode.png"));
         return shamExplode;
     }
 

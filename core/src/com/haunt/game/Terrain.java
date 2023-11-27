@@ -75,11 +75,6 @@ public class Terrain {
                 new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
         spr.put(Tile.FALLTHROUGH,
                 new TextureRegion(new Texture("assets/environment/SemisolidPlatform.png")).split(32, 32));
-        spr.put(Tile.D_DRAWER, new TextureRegion(new Texture("assets/environment/bg/drawer.png")).split(32, 32));
-        spr.put(Tile.D_VASE, new TextureRegion(new Texture("assets/environment/bg/vase.png")).split(32, 32));
-        spr.put(Tile.D_WINDOW, new TextureRegion(new Texture("assets/environment/bg/window.png")).split(32, 32));
-        spr.put(Tile.D_DOOR, new TextureRegion(new Texture("assets/environment/bg/door.png")).split(32, 32));
-        spr.put(Tile.D_CLOCK, new TextureRegion(new Texture("assets/environment/bg/clock.png")).split(32, 32));
     }
 
     public void dispose() {
@@ -171,11 +166,6 @@ public class Terrain {
                 }
                 break;
 
-            case D_CLOCK:
-            case D_DOOR:
-                tileX = 0;
-                tileY = tileAbove ? 1 : 0;
-                break;
             case FALLTHROUGH:
                 if (!tileLeft && tileRight)
                     tileX = 0;

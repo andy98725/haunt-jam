@@ -13,6 +13,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.haunt.game.elements.Character;
 import com.haunt.game.elements.Entities;
 import com.haunt.game.elements.Jar;
+import com.haunt.game.elements.decor.Clock;
+import com.haunt.game.elements.decor.Door;
+import com.haunt.game.elements.decor.Drawer;
+import com.haunt.game.elements.decor.Vase;
+import com.haunt.game.elements.decor.Window;
 import com.haunt.game.elements.hazards.Ghost;
 import com.haunt.game.elements.hazards.Saw;
 import com.haunt.game.elements.hazards.Spike;
@@ -61,9 +66,6 @@ public class Level {
                         matched = true;
                         if (tileData[i][j] == null)
                             tileData[i][j] = t;
-
-                        if (t == Tile.D_DOOR || t == Tile.D_CLOCK)
-                            tileData[i][j + 1] = t;
                         break;
                     }
                 if (matched)
@@ -71,19 +73,39 @@ public class Level {
 
                 switch (id) {
                     case 3:
+                        entities.add(new Saw(new Vector2(i, j)));
                         tileData[i][j] = Tile.MATCH;
-                        this.entities.add(new Saw(new Vector2(i, j)));
                         break;
                     case 4:
+                        entities.add(new Spike(new Vector2(i, j)));
                         tileData[i][j] = Tile.MATCH;
-                        this.entities.add(new Spike(new Vector2(i, j)));
                         break;
                     case 5:
-                        tileData[i][j] = Tile.MATCH;
                         this.startLoc = new Vector2(i + 0.5f, j);
+                        tileData[i][j] = Tile.MATCH;
                         break;
                     case 6:
                         // tileData[i][j] = null;
+                        break;
+                    case 20:
+                        entities.add(new Drawer(new Vector2(i, j)));
+                        tileData[i][j] = Tile.MATCH;
+                        break;
+                    case 21:
+                        entities.add(new Vase(new Vector2(i, j)));
+                        tileData[i][j] = Tile.MATCH;
+                        break;
+                    case 22:
+                        entities.add(new Window(new Vector2(i, j)));
+                        tileData[i][j] = Tile.MATCH;
+                        break;
+                    case 23:
+                        entities.add(new Door(new Vector2(i, j)));
+                        tileData[i][j] = Tile.MATCH;
+                        break;
+                    case 24:
+                        entities.add(new Clock(new Vector2(i, j)));
+                        tileData[i][j] = Tile.MATCH;
                         break;
                     case 100:
                     case 101:
