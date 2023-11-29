@@ -9,12 +9,11 @@ public class Levels {
 
     private final HauntGame game;
 
-    private final LevelInfo[] levels;
+    private final LevelInfo[] levels, bonusLevels;
 
     public Levels(HauntGame game) {
         this.game = game;
         levels = new LevelInfo[] { new LevelInfo("Level1.csv", 12, 0),
-                new LevelInfo("bonus/Void.csv", 1, 1.75f),
                 new LevelInfo("Level2.csv", 8, 5),
                 new LevelInfo("LevelVase.csv", 8, 2),
                 new LevelInfo("LevelSpike.csv", 6, 4),
@@ -39,6 +38,8 @@ public class Levels {
                 new LevelInfo("LevelInfinityRedux.csv", 4, 2),
                 new LevelInfo("LevelCrossRedux.csv", 3, 4),
         };
+        bonusLevels = new LevelInfo[] { new LevelInfo("bonus/Void.csv", 1, 1.75f),
+        };
         setLevel(0);
     }
 
@@ -49,30 +50,29 @@ public class Levels {
             game.setLevel(new Level(levels[i], i, game, this));
     }
 
+    public void setBonusLevel(int i) {
+        if (i >= bonusLevels.length || i < 0)
+            game.win();
+        else
+            game.setLevel(new Level(bonusLevels[i], i, game, this));
+    }
+
+    private static final int[] numkeys = new int[] { Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_3,
+            Input.Keys.NUM_4, Input.Keys.NUM_5, Input.Keys.NUM_6,
+            Input.Keys.NUM_7, Input.Keys.NUM_8, Input.Keys.NUM_9,
+            Input.Keys.NUM_0 };
+
     public void input() {
         // if (!HauntGame.DEBUG)
         // return;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1))
-            setLevel(0);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2))
-            setLevel(1);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3))
-            setLevel(2);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4))
-            setLevel(3);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5))
-            setLevel(4);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6))
-            setLevel(5);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_7))
-            setLevel(6);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8))
-            setLevel(7);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9))
-            setLevel(8);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0))
-            setLevel(9);
+        for (int i = 0; i < numkeys.length; i++)
+            if (Gdx.input.isKeyJustPressed(numkeys[i])) {
+                if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT))
+                    setBonusLevel(i);
+                else
+                    setLevel(i);
+            }
     }
 
     public static class LevelInfo {
