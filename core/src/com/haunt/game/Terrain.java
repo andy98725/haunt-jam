@@ -20,13 +20,13 @@ public class Terrain {
                 if (map[i][j] == Tile.MATCH) {
                     if (i == 0 || j == 0 || i == map.length - 1 || j == map[i].length - 1)
                         map[i][j] = null;
-                    else if (map[i - 1][j] == null || map[i - 1][j] == Tile.EMPTY)
+                    else if (map[i - 1][j] == null || map[i - 1][j] == Tile.BG)
                         map[i][j] = map[i - 1][j];
-                    else if (map[i + 1][j] == null || map[i + 1][j] == Tile.EMPTY)
+                    else if (map[i + 1][j] == null || map[i + 1][j] == Tile.BG)
                         map[i][j] = map[i + 1][j];
-                    else if (map[i][j - 1] == null || map[i][j - 1] == Tile.EMPTY)
+                    else if (map[i][j - 1] == null || map[i][j - 1] == Tile.BG)
                         map[i][j] = map[i][j - 1];
-                    else if (map[i][j + 1] == null || map[i][j + 1] == Tile.EMPTY)
+                    else if (map[i][j + 1] == null || map[i][j + 1] == Tile.BG)
                         map[i][j] = map[i][j + 1];
                     else
                         map[i][j] = null;
@@ -37,10 +37,10 @@ public class Terrain {
     public void render(SpriteBatch sb, Camera cam) {
         for (int i = 0; i < levelMap.length; i++)
             for (int j = 0; j < levelMap[0].length; j++)
-                if (tileAt(i, j) != null) {
-                    TextureRegion bg = bgSprite(i, j);
-                    if (bg != null)
-                        sb.draw(bg, i, j, 1, 1);
+                if (drawTileAt(i, j) != null) {
+                    Tile t = drawTileAt(i, j);
+                    if (t.bgTile() != t && t.bgTile() != null)
+                        sb.draw(spr.get(t.bgTile())[0][0], i, j, 1, 1);
 
                     sb.draw(sprite(i, j), i, j, 1, 1);
                 }
@@ -54,7 +54,7 @@ public class Terrain {
         return levelMap[0].length;
     }
 
-    public Tile tileAt(float x, float y) {
+    public Tile drawTileAt(float x, float y) {
         int xx = (int) x, yy = (int) y;
 
         if (yy < 0)
@@ -67,10 +67,25 @@ public class Terrain {
         return levelMap[xx][yy];
     }
 
+    public Tile collisionTileAt(float x, float y) {
+        int xx = (int) x, yy = (int) y;
+
+        if (yy < 0)
+            // return Tile.KILL;
+            return null;
+        if (xx < 0 || xx >= levelMap.length || yy >= levelMap[0].length)
+            // return Tile.SOLID;
+            return null;
+
+        if (levelMap[xx][yy] == null)
+            return null;
+        return levelMap[xx][yy].collisionTile();
+    }
+
     private final HashMap<Tile, TextureRegion[][]> spr = new HashMap<Tile, TextureRegion[][]>();
 
     public void create() {
-        spr.put(Tile.EMPTY, new TextureRegion(new Texture("assets/environment/bg.png")).split(64, 64));
+        spr.put(Tile.BG, new TextureRegion(new Texture("assets/environment/bg.png")).split(64, 64));
         spr.put(Tile.SOLID,
                 new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
         spr.put(Tile.FALLTHROUGH,
@@ -82,24 +97,16 @@ public class Terrain {
             t[0][0].getTexture().dispose();
     }
 
-    private TextureRegion bgSprite(float x, float y) {
-        Tile t = tileAt(x, y);
-        if (t == t.bgTile() || t == null)
-            return null;
-        return spr.get(t.bgTile())[0][0];
-
-    }
-
     private TextureRegion sprite(float x, float y) {
-        Tile t = tileAt(x, y);
+        Tile t = drawTileAt(x, y).collisionTile();
         TextureRegion[][] currentTileset = spr.get(t);
         int tileX = 0;
         int tileY = 0;
 
-        boolean tileAbove = tileAt(x, y + 1) == t ? true : false;
-        boolean tileBelow = tileAt(x, y - 1) == t ? true : false;
-        boolean tileLeft = tileAt(x - 1, y) == t ? true : false;
-        boolean tileRight = tileAt(x + 1, y) == t ? true : false;
+        boolean tileAbove = drawTileAt(x, y + 1) == t ? true : false;
+        boolean tileBelow = drawTileAt(x, y - 1) == t ? true : false;
+        boolean tileLeft = drawTileAt(x - 1, y) == t ? true : false;
+        boolean tileRight = drawTileAt(x + 1, y) == t ? true : false;
 
         // Only do thing on actual tilesets
 

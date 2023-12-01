@@ -26,7 +26,7 @@ public class Jar extends Entity {
             updateLoc(
                     new Vector2(Util.random.nextInt(level.terrain.mapWid()),
                             Util.random.nextInt(level.terrain.mapHei())));
-        } while (level.terrain.tileAt(loc.x, loc.y) != Tile.EMPTY);
+        } while (level.terrain.collisionTileAt(loc.x, loc.y) != Tile.BG);
     }
 
     public Jar(Vector2[] endLocs, int i) {

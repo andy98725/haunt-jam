@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="Base" tilewidth="32" tileheight="64" tilecount="16" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="Base" tilewidth="32" tileheight="64" tilecount="24" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="1">
   <image width="32" height="32" source="block.png"/>
@@ -18,6 +18,9 @@
  </tile>
  <tile id="6">
   <image width="32" height="32" source="noJar.png"/>
+ </tile>
+ <tile id="25">
+  <image width="32" height="32" source="platDark.png"/>
  </tile>
  <tile id="20">
   <image width="32" height="32" source="../assets/environment/bg/drawer.png"/>

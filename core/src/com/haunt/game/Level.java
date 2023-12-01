@@ -85,7 +85,6 @@ public class Level {
                         tileData[i][j] = Tile.MATCH;
                         break;
                     case 6:
-                        // tileData[i][j] = null;
                         break;
                     case 20:
                         entities.add(new Drawer(new Vector2(i, j)));

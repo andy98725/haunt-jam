@@ -118,7 +118,7 @@ public class Character extends Entity {
                 }
 
                 // Check falling
-                if (tileHitY(pos.y - err) == Tile.EMPTY) {
+                if (tileHitY(pos.y - err) == Tile.BG) {
                     coyoteTime = COYOTE_TIME;
                     this.animationTime = 1;
                     updateState(State.JUMP, xMov, yMov);
@@ -139,7 +139,7 @@ public class Character extends Entity {
                 }
 
                 // Check falling
-                if (tileHitY(pos.y - err) == Tile.EMPTY) {
+                if (tileHitY(pos.y - err) == Tile.BG) {
                     coyoteTime = COYOTE_TIME;
                     this.animationTime = 1;
                     updateState(State.JUMP, xMov, yMov);
@@ -188,7 +188,7 @@ public class Character extends Entity {
                     break;
                 }
 
-                if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
+                if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.BG) {
                     updateState(State.WALK, xMov, yMov);
                     break;
                 }
@@ -209,7 +209,7 @@ public class Character extends Entity {
                 accel.y = -WALLJUMP_GRAV;
 
                 // Hit floor
-                if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.EMPTY) {
+                if (vel.y <= 0 && tileHitY(pos.y - err) != Tile.BG) {
                     updateState(State.WALK, xMov, yMov);
                     break;
                 }
@@ -313,9 +313,9 @@ public class Character extends Entity {
     private static final float err = 0.01f;
 
     private Tile tileHitX(float newX) {
-        Tile hit = Tile.EMPTY;
+        Tile hit = Tile.BG;
         for (float y = pos.getY() + err; y <= pos.getY() + pos.getHeight() - err; y += 0.5f - err) {
-            Tile hitPos = level.terrain.tileAt(newX, y);
+            Tile hitPos = level.terrain.collisionTileAt(newX, y);
             if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }
@@ -323,22 +323,22 @@ public class Character extends Entity {
     }
 
     private Tile tileHitY(float newY) {
-        Tile hit = Tile.EMPTY;
+        Tile hit = Tile.BG;
         for (float x = pos.getX() + err; x <= pos.getX() + pos.getWidth() - err; x += 0.5f - err) {
-            Tile hitPos = level.terrain.tileAt(x, newY);
+            Tile hitPos = level.terrain.collisionTileAt(x, newY);
             if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }
 
         if (hit == Tile.FALLTHROUGH) {
             if (Gdx.input.isKeyPressed(Input.Keys.S))
-                return Tile.EMPTY;
+                return Tile.BG;
             if (newY > pos.y)
-                return Tile.EMPTY;
+                return Tile.BG;
 
             // Only block fallthrough on top
             if ((int) (pos.y + err) == (int) newY)
-                return Tile.EMPTY;
+                return Tile.BG;
 
             return Tile.SOLID;
         }

@@ -1,7 +1,8 @@
 package com.haunt.game;
 
 public enum Tile {
-    EMPTY(0, -1), SOLID(2, 1), FALLTHROUGH(1, 2),
+    BG(0, -1), SOLID(2, 1),
+    FALLTHROUGH(1, 2), FALLTHROUGH_EMPTY(1, 25),
     // // Decor
     // D_DRAWER(-1, 20), D_VASE(-1, 21), D_WINDOW(-1, 22), D_DOOR(-1, 23),
     // D_CLOCK(-1, 24),
@@ -15,19 +16,24 @@ public enum Tile {
         this.mapID = mapID;
     }
 
-    public Tile bgTile() {
-        return collisionTile();
-    }
-
     public Tile collisionTile() {
         switch (this) {
-            case EMPTY:
-            case FALLTHROUGH:
             default:
-                return Tile.EMPTY;
-            case SOLID:
-                return Tile.SOLID;
+                return this;
+            case FALLTHROUGH_EMPTY:
+                return FALLTHROUGH;
         }
+    }
+
+    public Tile bgTile() {
+        switch (this) {
+            default:
+            case FALLTHROUGH_EMPTY:
+                return null;
+            case FALLTHROUGH:
+                return BG;
+        }
+
     }
 
 }

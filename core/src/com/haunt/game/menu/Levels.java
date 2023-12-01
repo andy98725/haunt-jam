@@ -38,7 +38,8 @@ public class Levels {
                 new LevelInfo("LevelInfinityRedux.csv", 4, 2),
                 new LevelInfo("LevelCrossRedux.csv", 3, 4),
         };
-        bonusLevels = new LevelInfo[] { new LevelInfo("bonus/Void.csv", 1, 1.75f),
+        bonusLevels = new LevelInfo[] { new LevelInfo("bonus/Intro.csv", 4, 3f, true),
+                new LevelInfo("bonus/Void.csv", 1, 1.75f, true),
         };
         setLevel(0);
     }
@@ -78,12 +79,20 @@ public class Levels {
     public static class LevelInfo {
         public final String levelName;
         public final float beginningTime, timeIncrement;
+        public final boolean bonusLevel;
 
         protected LevelInfo(String levelName, float beginningTime, float timeIncrement) {
             this.levelName = levelName;
             this.beginningTime = beginningTime;
             this.timeIncrement = timeIncrement;
+            this.bonusLevel = false;
+        }
 
+        protected LevelInfo(String levelName, float beginningTime, float timeIncrement, boolean bonus) {
+            this.levelName = levelName;
+            this.beginningTime = beginningTime;
+            this.timeIncrement = timeIncrement;
+            this.bonusLevel = bonus;
         }
     }
 }
