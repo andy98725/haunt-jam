@@ -38,14 +38,16 @@ public class Levels {
                 new LevelInfo("LevelInfinityRedux.csv", 4, 2),
                 new LevelInfo("LevelCrossRedux.csv", 3, 4),
         };
-        bonusLevels = new LevelInfo[] { new LevelInfo("bonus/Intro.csv", 4, 3f, true),
-                new LevelInfo("bonus/Void.csv", 1, 1.75f, true),
+        bonusLevels = new LevelInfo[] { new LevelInfo("bonus/Intro.csv", 3f, 2f, true),
+                new LevelInfo("bonus/Void.csv", 1.5f, 1.75f, true),
         };
         setLevel(0);
     }
 
     public void setLevel(int i) {
-        if (i >= levels.length || i < 0)
+        if (i >= 100)
+            setBonusLevel(i - 100);
+        else if (i >= levels.length || i < 0)
             game.win();
         else
             game.setLevel(new Level(levels[i], i, game, this));
@@ -55,7 +57,7 @@ public class Levels {
         if (i >= bonusLevels.length || i < 0)
             game.win();
         else
-            game.setLevel(new Level(bonusLevels[i], i, game, this));
+            game.setLevel(new Level(bonusLevels[i], 100 + i, game, this));
     }
 
     private static final int[] numkeys = new int[] { Input.Keys.NUM_1, Input.Keys.NUM_2, Input.Keys.NUM_3,

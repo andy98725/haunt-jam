@@ -70,7 +70,7 @@ public class Terrain {
         return levelMap[xx][yy];
     }
 
-    public Tile collisionTileAt(float x, float y) {
+    public Tile tileAt(float x, float y) {
         int xx = (int) x, yy = (int) y;
 
         if (yy < 0)
@@ -91,17 +91,14 @@ public class Terrain {
 
         spr.put(Tile.BG, new TextureRegion(new Texture("assets/environment/bg.png")).split(64, 64));
 
-        if (level.bonusLevel) // Set Bonus Level Terrain Sprites
-        {
-            spr.put(Tile.SOLID,
-                    new TextureRegion(new Texture("assets/environment/Terrain_Bonus_TileSet.png")).split(32, 32));
-        } else // Set Regular Level Terrain Sprites
-        {
-            spr.put(Tile.SOLID,
-                    new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
-        }
+        spr.put(Tile.BONUS,
+                new TextureRegion(new Texture("assets/environment/Terrain_Bonus_TileSet.png")).split(32, 32));
+        spr.put(Tile.SOLID,
+                new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
 
         spr.put(Tile.FALLTHROUGH,
+                new TextureRegion(new Texture("assets/environment/SemisolidPlatform.png")).split(32, 32));
+        spr.put(Tile.FALLTHROUGH_EMPTY,
                 new TextureRegion(new Texture("assets/environment/SemisolidPlatform.png")).split(32, 32));
     }
 
@@ -111,15 +108,10 @@ public class Terrain {
     }
 
     private TextureRegion sprite(float x, float y) {
-        Tile t = drawTileAt(x, y).collisionTile();
+        Tile t = drawTileAt(x, y);
         TextureRegion[][] currentTileset = spr.get(t);
         int tileX = 0;
         int tileY = 0;
-
-        boolean tileAbove = drawTileAt(x, y + 1) == t ? true : false;
-        boolean tileBelow = drawTileAt(x, y - 1) == t ? true : false;
-        boolean tileLeft = drawTileAt(x - 1, y) == t ? true : false;
-        boolean tileRight = drawTileAt(x + 1, y) == t ? true : false;
 
         // Only do thing on actual tilesets
 
@@ -127,6 +119,11 @@ public class Terrain {
             default:
                 return currentTileset[0][0];
             case SOLID:
+            case BONUS:
+                boolean tileAbove = drawTileAt(x, y + 1) == t;
+                boolean tileBelow = drawTileAt(x, y - 1) == t;
+                boolean tileLeft = drawTileAt(x - 1, y) == t;
+                boolean tileRight = drawTileAt(x + 1, y) == t;
                 if (tileAbove && !tileBelow) {
                     if (tileLeft && tileRight) {
                         tileX = 1;
@@ -187,6 +184,11 @@ public class Terrain {
                 break;
 
             case FALLTHROUGH:
+            case FALLTHROUGH_EMPTY:
+
+                tileLeft = drawTileAt(x - 1, y) != null && drawTileAt(x - 1, y) != Tile.BG;
+                tileRight = drawTileAt(x + 1, y) != null && drawTileAt(x + 1, y) != Tile.BG;
+                ;
                 if (!tileLeft && tileRight)
                     tileX = 0;
                 if (tileLeft && tileRight)

@@ -315,7 +315,7 @@ public class Character extends Entity {
     private Tile tileHitX(float newX) {
         Tile hit = Tile.BG;
         for (float y = pos.getY() + err; y <= pos.getY() + pos.getHeight() - err; y += 0.5f - err) {
-            Tile hitPos = level.terrain.collisionTileAt(newX, y);
+            Tile hitPos = level.terrain.tileAt(newX, y);
             if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }
@@ -325,7 +325,7 @@ public class Character extends Entity {
     private Tile tileHitY(float newY) {
         Tile hit = Tile.BG;
         for (float x = pos.getX() + err; x <= pos.getX() + pos.getWidth() - err; x += 0.5f - err) {
-            Tile hitPos = level.terrain.collisionTileAt(x, newY);
+            Tile hitPos = level.terrain.tileAt(x, newY);
             if (hitPos != null && hitPos.priority > hit.priority)
                 hit = hitPos;
         }

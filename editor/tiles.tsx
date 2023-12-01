@@ -22,6 +22,9 @@
  <tile id="25">
   <image width="32" height="32" source="platDark.png"/>
  </tile>
+ <tile id="26">
+  <image width="32" height="32" source="bonus.png"/>
+ </tile>
  <tile id="20">
   <image width="32" height="32" source="../assets/environment/bg/drawer.png"/>
  </tile>
