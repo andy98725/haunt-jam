@@ -140,7 +140,7 @@ public class Level {
             jars[jarIDs.get(i)] = jarLocs.get(i);
 
         this.endLocs = jars;
-        this.terrain = new Terrain(tileData);
+        this.terrain = new Terrain(tileData, info);
 
         restart(false);
     }

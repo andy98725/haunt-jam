@@ -6,14 +6,17 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.haunt.game.menu.Levels.LevelInfo;
 
 public class Terrain {
 
     public static final float ZOOM = 1.5f;
     private final Tile[][] levelMap;
+    private LevelInfo level;
 
-    public Terrain(Tile[][] map) {
+    public Terrain(Tile[][] map, LevelInfo info) {
         this.levelMap = map;
+        this.level = info;
 
         for (int i = 0; i < map.length; i++)
             for (int j = 0; j < map[i].length; j++) {
@@ -85,9 +88,19 @@ public class Terrain {
     private final HashMap<Tile, TextureRegion[][]> spr = new HashMap<Tile, TextureRegion[][]>();
 
     public void create() {
+
         spr.put(Tile.BG, new TextureRegion(new Texture("assets/environment/bg.png")).split(64, 64));
-        spr.put(Tile.SOLID,
-                new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
+
+        if (level.bonusLevel) // Set Bonus Level Terrain Sprites
+        {
+            spr.put(Tile.SOLID,
+                    new TextureRegion(new Texture("assets/environment/Terrain_Bonus_TileSet.png")).split(32, 32));
+        } else // Set Regular Level Terrain Sprites
+        {
+            spr.put(Tile.SOLID,
+                    new TextureRegion(new Texture("assets/environment/Terrain_Wood_TileSet.png")).split(32, 32));
+        }
+
         spr.put(Tile.FALLTHROUGH,
                 new TextureRegion(new Texture("assets/environment/SemisolidPlatform.png")).split(32, 32));
     }
